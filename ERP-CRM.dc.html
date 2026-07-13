@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  .ph{line-height:1;display:inline-block;}
+  @keyframes cp-fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+</style>
+</helmet>
+
+<div style="min-height:100vh; width:100%; font-family:'Inter',system-ui,-apple-system,sans-serif; color:#0B1437; background:#FFFFFF; -webkit-font-smoothing:antialiased;">
+
+  <header style="position:sticky; top:0; z-index:400; padding:16px 24px 0;">
+    <dc-import name="GonjNav" hint-size="100%,64px"></dc-import>
+  </header>
+
+  <section style="max-width:1000px; margin:0 auto; padding:56px 24px 20px; text-align:center;">
+    <div style="display:inline-flex; align-items:center; gap:9px; font-size:12.5px; font-weight:700; letter-spacing:.6px; color:#21A8C4; background:rgba(33,212,253,0.12); border:1px solid rgba(33,212,253,0.25); padding:7px 14px; border-radius:30px; margin-bottom:22px;">CLOUD &amp; KI</div>
+    <h1 style="font-size:clamp(32px,5vw,46px); line-height:1.1; font-weight:800; letter-spacing:-1px; margin:0 0 18px;">Sicher in die Cloud, klug automatisiert</h1>
+    <p style="font-size:16.5px; line-height:1.65; color:#45506E; max-width:640px; margin:0 auto;">Microsoft 365, Azure, Google Workspace und KI-gestützte Automatisierung — wir migrieren, sichern und verknüpfen Ihre Abläufe.</p>
+  </section>
+
+  <section style="max-width:1080px; margin:0 auto; padding:24px 24px 64px;">
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:20px;">
+      <sc-for list="{{ items }}" as="it" hint-placeholder-count="6">
+        <div style="{{ it.cardStyle }}">
+          <div style="width:44px; height:44px; border-radius:12px; background:{{ it.tint }}; display:flex; align-items:center; justify-content:center; margin-bottom:10px;"><i class="ph ph-{{ it.icon }}" style="font-size:22px; color:{{ it.color }};"></i></div>
+          <div style="font-size:17px; font-weight:700; margin-bottom:6px;">{{ it.title }}</div>
+          <p style="font-size:14px; color:#45506E; line-height:1.55; margin:0;">{{ it.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1080px; margin:0 auto; padding:0 24px 80px;">
+    <div style="background:linear-gradient(120deg,#2563FF 0%,#7A5CFF 55%,#21D4FD 100%); border-radius:22px; padding:48px; text-align:center; color:#fff;">
+      <h2 style="font-size:28px; font-weight:800; letter-spacing:-.5px; margin:0 0 12px;">Bereit für Cloud & Automatisierung?</h2>
+      <p style="font-size:15.5px; color:rgba(255,255,255,0.92); max-width:520px; margin:0 auto 24px; line-height:1.6;">Lassen Sie uns unverbindlich über Ihr Projekt sprechen.</p>
+      <a href="index.html#kontakt" style="display:inline-flex; align-items:center; gap:9px; background:#fff; color:#0B1437; text-decoration:none; border-radius:11px; padding:14px 26px; font-weight:700; font-size:14.5px;"><i class="ph ph-envelope-simple" style="font-size:17px;"></i> Jetzt anfragen</a>
+    </div>
+  </section>
+
+  <dc-import name="GonjFooter" hint-size="100%,320px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:960}}">
+class Component extends DCLogic {
+  data = [
+    { icon: 'microsoft-outlook-logo', title: 'Microsoft 365', desc: 'Office, Teams & Exchange aus der Cloud.' },
+    { icon: 'cloud', title: 'Azure & Google Workspace', desc: 'Skalierbare Cloud-Infrastruktur.' },
+    { icon: 'arrows-left-right', title: 'Cloud Migration', desc: 'Sicher von lokal in die Cloud.' },
+    { icon: 'shield-check', title: 'Cloud Security', desc: 'Daten und Zugriffe zuverlässig geschützt.' },
+    { icon: 'magic-wand', title: 'KI-Automatisierung', desc: 'Wiederkehrende Aufgaben automatisieren.' },
+    { icon: 'flow-arrow', title: 'Workflow-Automatisierung', desc: 'Abläufe verknüpfen und Zeit sparen.' },
+  ];
+  renderVals() {
+    const colors = ['#2563FF', '#7A5CFF', '#21D4FD', '#2563FF', '#7A5CFF', '#21D4FD'];
+    const tints = ['#E6ECFB', '#F0ECFE', '#E2F6FE', '#E6ECFB', '#F0ECFE', '#E2F6FE'];
+    const items = this.data.map((it, i) => ({ ...it, color: colors[i], tint: tints[i], cardStyle: { background: '#fff', border: '1px solid #E6ECF7', borderRadius: '18px', padding: '24px', animation: 'cp-fade .35s ease both' } }));
+    return { items };
+  }
+}
+</script>
+</body>
+</html>
