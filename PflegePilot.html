@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUMEN — Beispiel Online-Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-thumb{background:#d8cebe;border-radius:8px;border:2px solid transparent;background-clip:content-box;}
+  .ph{line-height:1;display:inline-block;}
+  a{color:#7A5CFF;}
+  @keyframes lm-fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  @keyframes lm-pop{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
+  input::placeholder{color:#8A93A7;}
+  .lm-filter{font-size:13.5px;font-weight:700;cursor:pointer;padding:8px 16px;border-radius:22px;transition:all .15s;background:#FFFFFF;color:#45506E;border:1px solid #E6ECF7;}
+  .lm-filter.active{background:#0B1437;color:#F6F2EC;border-color:#0B1437;}
+  .lm-nav-link{font-size:14px;font-weight:600;color:#5C544A;cursor:pointer;text-decoration:none;}
+  .lm-nav-link:hover{color:#7A5CFF;}
+  .lm-card{background:#FFFFFF;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;animation:lm-fade .35s ease both;}
+  .lm-card:hover{box-shadow:0 10px 30px rgba(38,35,30,0.09);}
+</style>
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+<div style="min-height:100vh;width:100%;font-family:'Inter',system-ui,sans-serif;color:#0B1437;background:#F5F8FF;-webkit-font-smoothing:antialiased;">
+
+  <div style="position:sticky;top:0;z-index:400;padding:10px 16px 0;background:#F5F8FF;"><div id="gonj-nav"></div></div>
+
+  <div style="background:#0B1437;color:#EAEEF6;text-align:center;font-size:12.5px;font-weight:600;letter-spacing:.4px;padding:9px 16px;">Kostenloser Versand ab 75 € · 30 Tage Rückgaberecht</div>
+
+  <header style="position:sticky;top:74px;z-index:40;background:rgba(245,248,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid #E6ECF7;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;height:74px;display:flex;align-items:center;gap:28px;">
+      <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:27px;letter-spacing:1px;color:#0B1437;">LUMEN</div>
+      <nav style="display:flex;gap:24px;margin-left:14px;" id="lm-navcats"></nav>
+      <div style="flex:1;"></div>
+      <div style="display:flex;align-items:center;gap:9px;background:#FFFFFF;border:1px solid #E6ECF7;border-radius:30px;padding:9px 16px;width:210px;">
+        <i class="ph ph-magnifying-glass" style="font-size:16px;color:#8A93A7;"></i>
+        <input placeholder="Suchen …" style="border:none;background:transparent;outline:none;font-family:inherit;font-size:13.5px;color:#0B1437;width:100%;" />
+      </div>
+      <i class="ph ph-heart" style="font-size:22px;color:#5C544A;cursor:pointer;"></i>
+      <div id="lm-cart-btn" style="position:relative;cursor:pointer;"><i class="ph ph-shopping-bag" style="font-size:23px;color:#0B1437;"></i><span id="lm-cart-count" style="position:absolute;top:-7px;right:-9px;background:#7A5CFF;color:#fff;font-size:11px;font-weight:700;min-width:18px;height:18px;padding:0 4px;border-radius:9px;display:none;align-items:center;justify-content:center;"></span></div>
+    </div>
+  </header>
+
+  <section style="max-width:1240px;margin:0 auto;padding:48px 32px 20px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+      <div>
+        <div style="display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7A5CFF;margin-bottom:18px;">Neue Kollektion · Sommer 2026</div>
+        <h1 style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:58px;line-height:1.04;color:#0B1437;margin:0 0 20px;letter-spacing:-.5px;">Schönes für<br>dein Zuhause</h1>
+        <p style="font-size:16.5px;line-height:1.6;color:#45506E;max-width:420px;margin:0 0 30px;">Sorgfältig ausgewählte Möbel, Leuchten und Wohnaccessoires — zeitlos, langlebig und mit Liebe zum Detail gefertigt.</p>
+        <div style="display:flex;gap:14px;">
+          <a href="#shop" style="background:#0B1437;color:#F6F2EC;border:none;border-radius:30px;padding:15px 30px;font-family:inherit;font-size:15px;font-weight:700;text-decoration:none;">Jetzt entdecken</a>
+          <a href="#shop" style="background:transparent;color:#0B1437;border:1.5px solid #C7D2E6;border-radius:30px;padding:15px 28px;font-family:inherit;font-size:15px;font-weight:700;text-decoration:none;">Bestseller ansehen</a>
+        </div>
+        <div style="display:flex;gap:30px;margin-top:38px;">
+          <div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:26px;color:#0B1437;">4,9★</div><div style="font-size:12.5px;color:#6B7794;">2.400+ Bewertungen</div></div>
+          <div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:26px;color:#0B1437;">48h</div><div style="font-size:12.5px;color:#6B7794;">Schneller Versand</div></div>
+          <div><div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:26px;color:#0B1437;">100%</div><div style="font-size:12.5px;color:#6B7794;">Nachhaltig</div></div>
+        </div>
+      </div>
+      <div style="position:relative;height:480px;border-radius:18px;overflow:hidden;">
+        <image-slot id="lumen-hero" shape="rect" placeholder="Foto: Wohnzimmer-Szene" style="position:absolute;inset:0;"></image-slot>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1240px;margin:0 auto;padding:30px 32px;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+      <div style="display:flex;align-items:center;gap:13px;background:#FFFFFF;border:1px solid #E6ECF7;border-radius:14px;padding:16px 18px;"><i class="ph ph-truck" style="font-size:24px;color:#7A5CFF;"></i><div><div style="font-size:13.5px;font-weight:700;color:#0B1437;">Versand ab 75 €</div><div style="font-size:12px;color:#6B7794;">Kostenlos in DE</div></div></div>
+      <div style="display:flex;align-items:center;gap:13px;background:#FFFFFF;border:1px solid #E6ECF7;border-radius:14px;padding:16px 18px;"><i class="ph ph-arrow-u-up-left" style="font-size:24px;color:#7A5CFF;"></i><div><div style="font-size:13.5px;font-weight:700;color:#0B1437;">30 Tage Rückgabe</div><div style="font-size:12px;color:#6B7794;">Ohne Wenn und Aber</div></div></div>
+      <div style="display:flex;align-items:center;gap:13px;background:#FFFFFF;border:1px solid #E6ECF7;border-radius:14px;padding:16px 18px;"><i class="ph ph-leaf" style="font-size:24px;color:#7A5CFF;"></i><div><div style="font-size:13.5px;font-weight:700;color:#0B1437;">Nachhaltig</div><div style="font-size:12px;color:#6B7794;">Faire Produktion</div></div></div>
+      <div style="display:flex;align-items:center;gap:13px;background:#FFFFFF;border:1px solid #E6ECF7;border-radius:14px;padding:16px 18px;"><i class="ph ph-lock-simple" style="font-size:24px;color:#7A5CFF;"></i><div><div style="font-size:13.5px;font-weight:700;color:#0B1437;">Sicher zahlen</div><div style="font-size:12px;color:#6B7794;">SSL-verschlüsselt</div></div></div>
+    </div>
+  </section>
+
+  <section id="shop" style="max-width:1240px;margin:0 auto;padding:24px 32px 64px;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;flex-wrap:wrap;gap:16px;">
+      <div>
+        <h2 style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:34px;color:#0B1437;margin:0 0 6px;">Unsere Auswahl</h2>
+        <p id="lm-count" style="font-size:14px;color:#6B7794;margin:0;"></p>
+      </div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap;" id="lm-filters"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" id="lm-grid"></div>
+  </section>
+
+  <footer style="background:#0B1437;color:#A7B0C6;padding:48px 32px;">
+    <div style="max-width:1240px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-between;gap:40px;flex-wrap:wrap;">
+      <div style="max-width:300px;">
+        <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:24px;letter-spacing:1px;color:#F6F2EC;margin-bottom:12px;">LUMEN</div>
+        <p style="font-size:13.5px;line-height:1.6;color:#7E89A3;margin:0;">Zeitlose Wohnaccessoires, nachhaltig produziert und sorgfältig kuratiert.</p>
+      </div>
+      <div style="display:flex;gap:56px;flex-wrap:wrap;">
+        <div><div style="font-size:12.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#F6F2EC;margin-bottom:14px;">Shop</div><div style="font-size:13.5px;color:#7E89A3;margin-bottom:9px;">Wohnen</div><div style="font-size:13.5px;color:#7E89A3;margin-bottom:9px;">Küche</div><div style="font-size:13.5px;color:#7E89A3;margin-bottom:9px;">Licht</div><div style="font-size:13.5px;color:#7E89A3;">Deko</div></div>
+        <div><div style="font-size:12.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#F6F2EC;margin-bottom:14px;">Service</div><div style="font-size:13.5px;color:#7E89A3;margin-bottom:9px;">Versand</div><div style="font-size:13.5px;color:#7E89A3;margin-bottom:9px;">Rückgabe</div><div style="font-size:13.5px;color:#7E89A3;margin-bottom:9px;">Kontakt</div><div style="font-size:13.5px;color:#7E89A3;">FAQ</div></div>
+        <div><div style="font-size:12.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#F6F2EC;margin-bottom:14px;">Über uns</div><div style="font-size:13.5px;color:#7E89A3;margin-bottom:9px;">Geschichte</div><div style="font-size:13.5px;color:#7E89A3;margin-bottom:9px;">Nachhaltigkeit</div><div style="font-size:13.5px;color:#7E89A3;">Magazin</div></div>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:32px auto 0;padding-top:20px;border-top:1px solid #1B2440;font-size:12.5px;color:#7E89A3;">© 2026 LUMEN Interior — Demo-Shop von [Ihre IT-Firma]</div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div id="lm-overlay" onclick="lmCloseDrawer()" style="position:fixed;inset:0;background:rgba(38,35,30,0.45);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s;"></div>
+  <aside id="lm-drawer" style="position:fixed;top:0;right:0;height:100vh;width:420px;max-width:92vw;background:#FFFFFF;z-index:55;display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(38,35,30,0.16);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid #E6ECF7;">
+      <div style="font-family:'Inter',system-ui,sans-serif;font-weight:800;font-size:22px;color:#0B1437;">Warenkorb</div>
+      <i onclick="lmCloseDrawer()" class="ph ph-x" style="font-size:22px;color:#5C544A;cursor:pointer;"></i>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:8px 0;" id="lm-cart-items"></div>
+    <div id="lm-cart-summary"></div>
+  </aside>
+
+  <!-- QUICK VIEW -->
+  <div id="lm-quick-overlay" onclick="lmCloseQuick()" style="position:fixed;inset:0;background:rgba(38,35,30,0.5);z-index:60;display:none;align-items:center;justify-content:center;padding:24px;"></div>
+
+  <!-- TOAST -->
+  <div id="lm-toast" style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#0B1437;color:#F6F2EC;padding:14px 22px;border-radius:13px;font-size:14px;font-weight:600;display:none;align-items:center;gap:11px;box-shadow:0 12px 30px rgba(0,0,0,0.25);z-index:80;"><i class="ph ph-check-circle-fill" style="font-size:20px;color:#9CC47E;"></i><span id="lm-toast-text"></span></div>
+
+</div>
+<script src="image-slot.js"></script>
+<script src="gonj-shared.js"></script>
+<script>
+renderGonjNav('gonj-nav');renderGonjFooter('gonj-footer');
+
+var PRODUCTS = [
+  { id: 'p1', name: 'Leinen-Sofa „Halden"', category: 'Wohnen', subtitle: '3-Sitzer · Naturleinen', price: 1299, tag: 'Bestseller' },
+  { id: 'p2', name: 'Eichentisch „Nord"', category: 'Wohnen', subtitle: 'Massivholz · 180 cm', price: 899, tag: 'Neu' },
+  { id: 'p3', name: 'Keramik-Set „Terra"', category: 'Küche', subtitle: '4-teilig · handglasiert', price: 79.9, tag: null },
+  { id: 'p4', name: 'Stehleuchte „Arc"', category: 'Licht', subtitle: 'Bogenleuchte · Messing', price: 249, tag: 'Bestseller' },
+  { id: 'p5', name: 'Tischleuchte „Globe"', category: 'Licht', subtitle: 'Opalglas · dimmbar', price: 129, tag: null },
+  { id: 'p6', name: 'Wollplaid „Alpin"', category: 'Textil', subtitle: 'Schurwolle · 130×170', price: 89.9, tag: 'Neu' },
+  { id: 'p7', name: 'Kissen „Dune" (2er)', category: 'Textil', subtitle: 'Leinen · inkl. Füllung', price: 49.9, tag: null },
+  { id: 'p8', name: 'Vase „Onda"', category: 'Deko', subtitle: 'Keramik · 28 cm', price: 39.9, tag: null },
+  { id: 'p9', name: 'Wandspiegel „Luna"', category: 'Deko', subtitle: 'Rund · Ø 70 cm', price: 159, tag: 'Neu' },
+];
+var CATS = ['Alle', 'Wohnen', 'Küche', 'Licht', 'Textil', 'Deko'];
+var cat = 'Alle', cart = {}, favs = {};
+function fmt(n) { return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(n); }
+function flash(msg) { var t = document.getElementById('lm-toast'); document.getElementById('lm-toast-text').textContent = msg; t.style.display = 'flex'; clearTimeout(window._lmT); window._lmT = setTimeout(function () { t.style.display = 'none'; }, 2600); }
+
+function renderNavCats() {
+  document.getElementById('lm-navcats').innerHTML = CATS.slice(1).map(function (c) { return '<span class="lm-nav-link" data-c="' + c + '">' + c + '</span>'; }).join('');
+  Array.prototype.forEach.call(document.querySelectorAll('#lm-navcats .lm-nav-link'), function (el) { el.onclick = function () { cat = el.getAttribute('data-c'); renderShop(); document.getElementById('shop').scrollIntoView({ behavior: 'smooth' }); }; });
+}
+function renderFilters() {
+  document.getElementById('lm-filters').innerHTML = CATS.map(function (c) { return '<span class="lm-filter' + (cat === c ? ' active' : '') + '" data-c="' + c + '">' + c + '</span>'; }).join('');
+  Array.prototype.forEach.call(document.querySelectorAll('#lm-filters .lm-filter'), function (el) { el.onclick = function () { cat = el.getAttribute('data-c'); renderShop(); }; });
+}
+function renderShop() {
+  renderFilters();
+  var filtered = cat === 'Alle' ? PRODUCTS : PRODUCTS.filter(function (p) { return p.category === cat; });
+  document.getElementById('lm-count').textContent = filtered.length + ' Produkte' + (cat !== 'Alle' ? ' · ' + cat : '');
+  document.getElementById('lm-grid').innerHTML = filtered.map(function (p) {
+    var fav = favs[p.id];
+    return '<div class="lm-card">' +
+      '<div data-quick="' + p.id + '" style="position:relative;height:240px;cursor:pointer;">' +
+      '<image-slot id="' + p.id + '" shape="rect" placeholder="' + p.name.replace(/"/g, '&quot;') + '" style="position:absolute;inset:0;"></image-slot>' +
+      (p.tag ? '<span style="position:absolute;top:14px;left:14px;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#fff;background:' + (p.tag === 'Neu' ? '#12B76A' : '#7A5CFF') + ';padding:5px 11px;border-radius:7px;">' + p.tag + '</span>' : '') +
+      '<span data-fav="' + p.id + '" style="position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;cursor:pointer;"><i class="ph ph-heart' + (fav ? '-fill' : '') + '" style="font-size:18px;color:' + (fav ? '#7A5CFF' : '#6B7794') + ';"></i></span>' +
+      '</div><div style="padding:18px;">' +
+      '<div style="font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#8A93A7;margin-bottom:5px;">' + p.category + '</div>' +
+      '<div style="font-family:\'Inter\',system-ui,sans-serif;font-weight:800;font-size:19px;color:#0B1437;margin-bottom:4px;">' + p.name + '</div>' +
+      '<div style="font-size:12.5px;color:#6B7794;margin-bottom:14px;">' + p.subtitle + '</div>' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;"><div style="font-family:\'Inter\',system-ui,sans-serif;font-weight:800;font-size:21px;color:#0B1437;">' + fmt(p.price) + '</div>' +
+      '<button data-add="' + p.id + '" style="display:flex;align-items:center;gap:7px;background:#0B1437;color:#F6F2EC;border:none;border-radius:24px;padding:10px 18px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;"><i class="ph ph-plus" style="font-size:15px;"></i> In den Warenkorb</button></div></div></div>';
+  }).join('');
+  Array.prototype.forEach.call(document.querySelectorAll('[data-add]'), function (el) { el.onclick = function (e) { e.stopPropagation(); addToCart(el.getAttribute('data-add')); }; });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-fav]'), function (el) { el.onclick = function (e) { e.stopPropagation(); favs[el.getAttribute('data-fav')] = !favs[el.getAttribute('data-fav')]; renderShop(); }; });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-quick]'), function (el) { el.onclick = function () { openQuick(el.getAttribute('data-quick')); }; });
+}
+function addToCart(id) { cart[id] = (cart[id] || 0) + 1; var p = PRODUCTS.filter(function (x) { return x.id === id; })[0]; flash(p.name + ' hinzugefügt'); renderCartBadge(); renderDrawer(); }
+function renderCartBadge() {
+  var count = 0; for (var k in cart) count += cart[k];
+  var el = document.getElementById('lm-cart-count');
+  if (count > 0) { el.style.display = 'flex'; el.textContent = count; } else { el.style.display = 'none'; }
+}
+function renderDrawer() {
+  var ids = Object.keys(cart);
+  var itemsEl = document.getElementById('lm-cart-items');
+  if (ids.length === 0) {
+    itemsEl.innerHTML = '<div style="text-align:center;padding:70px 30px;color:#8A93A7;"><i class="ph ph-shopping-bag" style="font-size:46px;color:#D8CEBE;"></i><div style="font-size:15px;font-weight:600;color:#45506E;margin-top:14px;">Dein Warenkorb ist leer</div><div style="font-size:13px;margin-top:4px;">Füge schöne Dinge hinzu ✦</div></div>';
+  } else {
+    itemsEl.innerHTML = ids.map(function (id) {
+      var p = PRODUCTS.filter(function (x) { return x.id === id; })[0]; var qty = cart[id];
+      return '<div style="display:flex;gap:14px;padding:16px 24px;border-bottom:1px solid #EEF2FF;"><div style="width:70px;height:70px;flex-shrink:0;border-radius:11px;overflow:hidden;position:relative;"><image-slot id="cart-' + id + '" src-ref="' + id + '" shape="rect" placeholder="' + p.name.replace(/"/g, '&quot;') + '" style="width:100%;height:100%;"></image-slot></div><div style="flex:1;min-width:0;"><div style="font-family:\'Inter\',system-ui,sans-serif;font-weight:800;font-size:16px;color:#0B1437;">' + p.name + '</div><div style="font-size:12px;color:#6B7794;margin-bottom:9px;">' + fmt(p.price) + '</div><div style="display:flex;align-items:center;gap:12px;"><div style="display:flex;align-items:center;gap:12px;border:1px solid #E6ECF7;border-radius:22px;padding:5px 12px;"><i data-dec="' + id + '" class="ph ph-minus" style="font-size:14px;color:#5C544A;cursor:pointer;"></i><span style="font-size:14px;font-weight:700;min-width:14px;text-align:center;">' + qty + '</span><i data-inc="' + id + '" class="ph ph-plus" style="font-size:14px;color:#5C544A;cursor:pointer;"></i></div><i data-rem="' + id + '" class="ph ph-trash" style="font-size:17px;color:#8A93A7;cursor:pointer;margin-left:auto;"></i></div></div><div style="font-family:\'Inter\',system-ui,sans-serif;font-weight:800;font-size:17px;color:#0B1437;white-space:nowrap;">' + fmt(p.price * qty) + '</div></div>';
+    }).join('');
+    Array.prototype.forEach.call(itemsEl.querySelectorAll('[data-inc]'), function (el) { el.onclick = function () { cart[el.getAttribute('data-inc')]++; renderCartBadge(); renderDrawer(); }; });
+    Array.prototype.forEach.call(itemsEl.querySelectorAll('[data-dec]'), function (el) { el.onclick = function () { var id = el.getAttribute('data-dec'); cart[id]--; if (cart[id] <= 0) delete cart[id]; renderCartBadge(); renderDrawer(); }; });
+    Array.prototype.forEach.call(itemsEl.querySelectorAll('[data-rem]'), function (el) { el.onclick = function () { delete cart[el.getAttribute('data-rem')]; renderCartBadge(); renderDrawer(); }; });
+  }
+  var subtotal = 0; ids.forEach(function (id) { subtotal += PRODUCTS.filter(function (x) { return x.id === id; })[0].price * cart[id]; });
+  var free = subtotal >= 75 || subtotal === 0;
+  var sumEl = document.getElementById('lm-cart-summary');
+  if (ids.length > 0) {
+    sumEl.innerHTML = '<div style="padding:20px 24px;border-top:1px solid #E6ECF7;background:#F5F8FF;"><div style="display:flex;justify-content:space-between;font-size:13.5px;color:#45506E;margin-bottom:7px;"><span>Zwischensumme</span><span>' + fmt(subtotal) + '</span></div><div style="display:flex;justify-content:space-between;font-size:13.5px;color:#45506E;margin-bottom:12px;"><span>Versand</span><span style="color:#12B76A;font-weight:700;">' + (free ? 'Kostenlos' : fmt(4.95)) + '</span></div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;"><span style="font-size:15px;font-weight:700;color:#0B1437;">Gesamt</span><span style="font-family:\'Inter\',system-ui,sans-serif;font-weight:800;font-size:24px;color:#0B1437;">' + fmt(subtotal + (free ? 0 : 4.95)) + '</span></div><button style="width:100%;background:#7A5CFF;color:#fff;border:none;border-radius:28px;padding:15px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;">Zur Kasse →</button></div>';
+  } else { sumEl.innerHTML = ''; }
+}
+window.lmCloseDrawer = function () { document.getElementById('lm-overlay').style.opacity = 0; document.getElementById('lm-overlay').style.pointerEvents = 'none'; document.getElementById('lm-drawer').style.transform = 'translateX(100%)'; };
+function openDrawer() { renderDrawer(); document.getElementById('lm-overlay').style.opacity = 1; document.getElementById('lm-overlay').style.pointerEvents = 'auto'; document.getElementById('lm-drawer').style.transform = 'translateX(0)'; }
+document.getElementById('lm-cart-btn').onclick = openDrawer;
+
+window.lmCloseQuick = function () { document.getElementById('lm-quick-overlay').style.display = 'none'; };
+function openQuick(id) {
+  var p = PRODUCTS.filter(function (x) { return x.id === id; })[0];
+  document.getElementById('lm-quick-overlay').style.display = 'flex';
+  document.getElementById('lm-quick-overlay').innerHTML = '<div onclick="event.stopPropagation()" style="background:#FFFFFF;border-radius:20px;overflow:hidden;max-width:840px;width:100%;display:grid;grid-template-columns:1fr 1fr;">' +
+    '<div style="position:relative;min-height:380px;"><image-slot id="quick-' + p.id + '" shape="rect" placeholder="' + p.name.replace(/"/g, '&quot;') + '" style="position:absolute;inset:0;"></image-slot></div>' +
+    '<div style="padding:34px 32px;position:relative;"><i onclick="lmCloseQuick()" class="ph ph-x" style="position:absolute;top:18px;right:20px;font-size:22px;color:#6B7794;cursor:pointer;"></i>' +
+    '<div style="font-size:11.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#8A93A7;margin-bottom:8px;">' + p.category + '</div>' +
+    '<h3 style="font-family:\'Inter\',system-ui,sans-serif;font-weight:800;font-size:30px;color:#0B1437;margin:0 0 10px;">' + p.name + '</h3>' +
+    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;"><span style="color:#F0913A;font-size:14px;">★★★★★</span><span style="font-size:13px;color:#6B7794;">4,9 · 312 Bewertungen</span></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;"><div style="font-family:\'Inter\',system-ui,sans-serif;font-weight:800;font-size:30px;color:#0B1437;">' + fmt(p.price) + '</div><span style="font-size:13px;font-weight:700;color:#12B76A;background:#E7F7EF;padding:6px 13px;border-radius:8px;">Auf Lager</span></div>' +
+    '<button onclick="addToCart(\'' + p.id + '\');lmCloseQuick();" style="width:100%;display:flex;align-items:center;justify-content:center;gap:9px;background:#0B1437;color:#F6F2EC;border:none;border-radius:28px;padding:15px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;"><i class="ph ph-shopping-bag" style="font-size:18px;"></i> In den Warenkorb</button></div></div>';
+}
+
+renderNavCats(); renderShop(); renderCartBadge();
+</script>
+</body>
+</html>

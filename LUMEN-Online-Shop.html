@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IT-Infrastruktur — F1 IT Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-thumb{background:#c9d3ea;border-radius:8px;border:2px solid transparent;background-clip:content-box;}
+  .ph{line-height:1;display:inline-block;}
+  a{color:#2563FF;}
+  a:hover{color:#1b54e6;}
+  @keyframes ix-fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  @keyframes ix-pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+  .ix-svc{background:#fff;border:1px solid #E6ECF7;border-radius:18px;padding:26px;animation:ix-fade .4s ease both;transition:.2s;}
+  .ix-svc:hover{box-shadow:0 18px 50px rgba(20,40,110,0.12);border-color:transparent;transform:translateY(-3px);}
+  .ix-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;position:relative;background:none;border:none;font:inherit;}
+  .ix-circle{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;z-index:1;transition:all .2s;background:#fff;color:#8A93A7;border:2px solid #E6ECF7;}
+  .ix-step.active .ix-circle{background:linear-gradient(135deg,#2563FF,#7A5CFF);color:#fff;border:none;box-shadow:0 6px 18px rgba(37,99,255,0.4);}
+  .ix-step.done .ix-circle{background:#2563FF;color:#fff;border:none;}
+  .ix-step-label{font-size:13px;font-weight:600;color:#8A93A7;text-align:center;z-index:1;background:#fff;padding:0 6px;}
+  .ix-step.active .ix-step-label{font-weight:800;color:#0B1437;}
+</style>
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+<div style="min-height:100vh;width:100%;font-family:'Inter',system-ui,-apple-system,sans-serif;color:#0B1437;background:#FFFFFF;-webkit-font-smoothing:antialiased;">
+
+  <header style="position:sticky;top:0;z-index:400;padding:16px 24px 0;"><div id="gonj-nav"></div></header>
+
+  <section style="position:relative;padding:56px 24px 90px;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(900px 460px at 50% -10%, rgba(91,140,255,0.14), transparent 60%);pointer-events:none;"></div>
+    <div style="position:relative;z-index:2;max-width:900px;margin:0 auto;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;letter-spacing:.6px;color:#6d5ee0;background:rgba(122,92,255,0.1);border:1px solid rgba(122,92,255,0.22);padding:7px 14px;border-radius:30px;margin-bottom:26px;"><span style="width:7px;height:7px;border-radius:50%;background:#7A5CFF;animation:ix-pulse 1.6s infinite;"></span>IT-INFRASTRUKTUR · VON 0 AUF 100</div>
+      <h1 style="font-size:clamp(38px,6vw,64px);line-height:1.05;font-weight:800;letter-spacing:-1.6px;margin:0 0 22px;">Wir bauen die komplette IT<br>Ihres Unternehmens —<br><span style="background:linear-gradient(95deg,#2563FF 0%,#7A5CFF 55%,#21D4FD 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;">von der ersten Leitung an.</span></h1>
+      <p style="font-size:17px;line-height:1.65;color:#45506E;max-width:600px;margin:0 auto 32px;">Netzwerk, Server, File-Server, Sicherheit und die komplette Hardware-Beschaffung. Wir planen, beschaffen, bauen auf und betreuen — schlüsselfertig aus einer Hand.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:44px;">
+        <a href="#kontakt" style="display:flex;align-items:center;gap:9px;background:#2563FF;color:#fff;text-decoration:none;border-radius:11px;padding:15px 28px;font-size:15px;font-weight:700;box-shadow:0 8px 22px rgba(37,99,255,0.3);"><i class="ph ph-rocket-launch" style="font-size:18px;"></i> Projekt starten</a>
+        <a href="#ablauf" style="display:flex;align-items:center;gap:9px;background:#fff;color:#0B1437;text-decoration:none;border:1px solid #E6ECF7;border-radius:11px;padding:15px 26px;font-size:15px;font-weight:700;"><i class="ph ph-path" style="font-size:18px;"></i> So gehen wir vor</a>
+      </div>
+      <div style="display:flex;gap:44px;justify-content:center;">
+        <div><div style="font-size:27px;font-weight:800;color:#0B1437;">250+</div><div style="font-size:12.5px;color:#6B7794;">Umgesetzte Projekte</div></div>
+        <div><div style="font-size:27px;font-weight:800;color:#0B1437;">99,9 %</div><div style="font-size:12.5px;color:#6B7794;">Verfügbarkeit</div></div>
+        <div><div style="font-size:27px;font-weight:800;color:#0B1437;">&lt; 24 h</div><div style="font-size:12.5px;color:#6B7794;">Reaktionszeit</div></div>
+      </div>
+    </div>
+
+    <div style="max-width:760px;margin:56px auto 0;background:linear-gradient(165deg,#0B1437,#16245E);border-radius:18px;padding:24px;box-shadow:0 30px 80px rgba(20,40,110,0.22);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <div style="font-size:13px;font-weight:700;color:#C7CEDF;">Ihre Infrastruktur</div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:#3DD68C;"><span style="width:8px;height:8px;border-radius:50%;background:#3DD68C;animation:ix-pulse 1.6s infinite;"></span>Alle Systeme aktiv</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px;">
+        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:13px;padding:16px 14px;text-align:center;"><div style="width:40px;height:40px;margin:0 auto 10px;border-radius:11px;background:rgba(124,155,255,0.16);display:flex;align-items:center;justify-content:center;"><i class="ph ph-desktop-tower" style="font-size:20px;color:#7C9BFF;"></i></div><div style="font-size:12.5px;font-weight:700;color:#EAEEF6;">Arbeitsplätze</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7E89A3;">42 Geräte</div></div>
+        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:13px;padding:16px 14px;text-align:center;"><div style="width:40px;height:40px;margin:0 auto 10px;border-radius:11px;background:rgba(33,212,253,0.16);display:flex;align-items:center;justify-content:center;"><i class="ph ph-wifi-high" style="font-size:20px;color:#21D4FD;"></i></div><div style="font-size:12.5px;font-weight:700;color:#EAEEF6;">Netzwerk</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7E89A3;">VLANs · VPN</div></div>
+        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:13px;padding:16px 14px;text-align:center;"><div style="width:40px;height:40px;margin:0 auto 10px;border-radius:11px;background:rgba(122,92,255,0.16);display:flex;align-items:center;justify-content:center;"><i class="ph ph-hard-drives" style="font-size:20px;color:#9F7CFF;"></i></div><div style="font-size:12.5px;font-weight:700;color:#EAEEF6;">Server</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7E89A3;">2 Hosts</div></div>
+        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:13px;padding:16px 14px;text-align:center;"><div style="width:40px;height:40px;margin:0 auto 10px;border-radius:11px;background:rgba(61,214,140,0.16);display:flex;align-items:center;justify-content:center;"><i class="ph ph-database" style="font-size:20px;color:#3DD68C;"></i></div><div style="font-size:12.5px;font-weight:700;color:#EAEEF6;">File-Server</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7E89A3;">Backup aktiv</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="leistungen" style="max-width:1180px;margin:0 auto;padding:24px 24px 24px;">
+    <div style="text-align:center;margin-bottom:44px;">
+      <div style="font-size:12.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#2563FF;margin-bottom:12px;">Unsere Leistungen</div>
+      <h2 style="font-size:38px;font-weight:800;letter-spacing:-.8px;margin:0 0 12px;">Alles, was Ihr Unternehmen technisch braucht</h2>
+      <p style="font-size:16px;color:#45506E;max-width:620px;margin:0 auto;line-height:1.6;">Von der strukturierten Verkabelung bis zum laufenden Betrieb — wir übernehmen jede Schicht Ihrer IT.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+      <div class="ix-svc"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,#2563FF 0%,#7A5CFF 55%,#21D4FD 100%);display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 10px 24px rgba(37,99,255,0.28);"><i class="ph ph-wifi-high" style="font-size:26px;color:#fff;"></i></div><div style="font-size:18.5px;font-weight:700;margin-bottom:9px;">Netzwerk-Installation</div><p style="font-size:14px;color:#45506E;line-height:1.6;margin:0 0 16px;">Strukturierte Verkabelung, Switching, WLAN und Firewall — die stabile Basis für alles Weitere.</p><div style="display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Strukturierte Verkabelung</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Switching, Routing & VLANs</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">WLAN-Ausleuchtung & Firewall</span></div></div><a href="Netzwerk-Installation.html" style="display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-size:13.5px;font-weight:700;color:#2563FF;text-decoration:none;">Beispiel ansehen <i class="ph ph-arrow-right" style="font-size:14px;"></i></a></div>
+      <div class="ix-svc"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,#2563FF 0%,#7A5CFF 55%,#21D4FD 100%);display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 10px 24px rgba(37,99,255,0.28);"><i class="ph ph-hard-drives" style="font-size:26px;color:#fff;"></i></div><div style="font-size:18.5px;font-weight:700;margin-bottom:9px;">Server & Virtualisierung</div><p style="font-size:14px;color:#45506E;line-height:1.6;margin:0 0 16px;">Physische und virtuelle Server, Domänencontroller und Virtualisierung — leistungsfähig und ausfallsicher.</p><div style="display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Server-Dimensionierung</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Hyper-V / VMware</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Active Directory & Domäne</span></div></div></div>
+      <div class="ix-svc"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,#2563FF 0%,#7A5CFF 55%,#21D4FD 100%);display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 10px 24px rgba(37,99,255,0.28);"><i class="ph ph-database" style="font-size:26px;color:#fff;"></i></div><div style="font-size:18.5px;font-weight:700;margin-bottom:9px;">File-Server & Storage</div><p style="font-size:14px;color:#45506E;line-height:1.6;margin:0 0 16px;">Zentrale Dateiablage mit sauberer Rechteverwaltung, NAS/SAN-Speicher und automatischen Backups.</p><div style="display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Zentraler File-Server</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Rechte- & Freigabekonzept</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Backup & Wiederherstellung</span></div></div></div>
+      <div class="ix-svc"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,#2563FF 0%,#7A5CFF 55%,#21D4FD 100%);display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 10px 24px rgba(37,99,255,0.28);"><i class="ph ph-desktop" style="font-size:26px;color:#fff;"></i></div><div style="font-size:18.5px;font-weight:700;margin-bottom:9px;">Hardware- & System-Beschaffung</div><p style="font-size:14px;color:#45506E;line-height:1.6;margin:0 0 16px;">Wir kaufen für Sie ein: PCs, Notebooks, Server und Peripherie — zu fairen Konditionen, sofort einsatzbereit.</p><div style="display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">PCs, Notebooks & Monitore</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Server & Netzwerktechnik</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Lieferung & Einrichtung</span></div></div></div>
+      <div class="ix-svc"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,#2563FF 0%,#7A5CFF 55%,#21D4FD 100%);display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 10px 24px rgba(37,99,255,0.28);"><i class="ph ph-shield-check" style="font-size:26px;color:#fff;"></i></div><div style="font-size:18.5px;font-weight:700;margin-bottom:9px;">Sicherheit & Firewall</div><p style="font-size:14px;color:#45506E;line-height:1.6;margin:0 0 16px;">Schutz für Ihre Daten: Next-Gen-Firewall, VPN-Zugänge, Endpoint-Schutz und sichere Zugriffsrechte.</p><div style="display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Firewall & VPN</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Endpoint-Security</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Zugriffs- & Rechtekonzept</span></div></div></div>
+      <div class="ix-svc"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,#2563FF 0%,#7A5CFF 55%,#21D4FD 100%);display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 10px 24px rgba(37,99,255,0.28);"><i class="ph ph-activity" style="font-size:26px;color:#fff;"></i></div><div style="font-size:18.5px;font-weight:700;margin-bottom:9px;">Wartung & Support</div><p style="font-size:14px;color:#45506E;line-height:1.6;margin:0 0 16px;">Nach dem Aufbau betreuen wir Ihre IT dauerhaft — mit Monitoring, Fernwartung und schneller Reaktion.</p><div style="display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">24/7 Monitoring</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Fernwartung & Vor-Ort</span></div><div style="display:flex;align-items:center;gap:9px;font-size:13.5px;"><i class="ph ph-check" style="font-size:15px;color:#2563FF;"></i><span style="color:#3A4359;">Wartungsverträge</span></div></div></div>
+    </div>
+  </section>
+
+  <section id="ablauf" style="max-width:1180px;margin:0 auto;padding:64px 24px 24px;">
+    <div style="text-align:center;margin-bottom:40px;">
+      <div style="font-size:12.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#7A5CFF;margin-bottom:12px;">Von 0 auf 100</div>
+      <h2 style="font-size:38px;font-weight:800;letter-spacing:-.8px;margin:0;">Unser Vorgehen — Schritt für Schritt</h2>
+    </div>
+    <div id="ix-steps" style="display:flex;align-items:center;gap:0;margin-bottom:34px;position:relative;"></div>
+    <div id="ix-detail" style="background:#F5F8FF;border:1px solid #E6ECF7;border-radius:18px;padding:34px;display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center;"></div>
+  </section>
+
+  <section id="infrastruktur" style="max-width:1180px;margin:0 auto;padding:64px 24px 24px;">
+    <div style="background:linear-gradient(165deg,#0B1437,#16245E);border-radius:22px;padding:46px;color:#fff;display:grid;grid-template-columns:0.9fr 1.1fr;gap:48px;align-items:center;">
+      <div>
+        <div style="font-size:12.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#8FB3FF;margin-bottom:14px;">Was wir einrichten</div>
+        <h2 style="font-size:32px;font-weight:800;letter-spacing:-.6px;line-height:1.15;margin:0 0 16px;">Die komplette technische Basis Ihres Standorts</h2>
+        <p style="font-size:15.5px;line-height:1.65;color:#A7B0C6;margin:0 0 24px;">Ob neuer Standort, Umzug oder Modernisierung — wir liefern alle Komponenten einsatzbereit und sauber dokumentiert.</p>
+        <a href="#kontakt" style="display:flex;align-items:center;gap:9px;background:linear-gradient(120deg,#2563FF,#7A5CFF);color:#fff;text-decoration:none;border-radius:11px;padding:14px 24px;font-size:15px;font-weight:700;box-shadow:0 10px 24px rgba(37,99,255,0.35);width:fit-content;"><i class="ph ph-clipboard-text" style="font-size:18px;"></i> Anforderungen besprechen</a>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;" id="ix-infra"></div>
+    </div>
+  </section>
+
+  <section style="max-width:1180px;margin:0 auto;padding:48px 24px;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px;">
+      <div style="text-align:center;background:#F5F8FF;border:1px solid #E6ECF7;border-radius:18px;padding:28px 18px;"><div style="font-size:38px;font-weight:800;letter-spacing:-1px;background:linear-gradient(120deg,#2563FF,#7A5CFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;">250+</div><div style="font-size:14px;font-weight:600;color:#45506E;margin-top:4px;">IT-Projekte umgesetzt</div></div>
+      <div style="text-align:center;background:#F5F8FF;border:1px solid #E6ECF7;border-radius:18px;padding:28px 18px;"><div style="font-size:38px;font-weight:800;letter-spacing:-1px;background:linear-gradient(120deg,#2563FF,#7A5CFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;">99,9 %</div><div style="font-size:14px;font-weight:600;color:#45506E;margin-top:4px;">Durchschn. Verfügbarkeit</div></div>
+      <div style="text-align:center;background:#F5F8FF;border:1px solid #E6ECF7;border-radius:18px;padding:28px 18px;"><div style="font-size:38px;font-weight:800;letter-spacing:-1px;background:linear-gradient(120deg,#2563FF,#7A5CFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;">15</div><div style="font-size:14px;font-weight:600;color:#45506E;margin-top:4px;">Jahre Erfahrung</div></div>
+      <div style="text-align:center;background:#F5F8FF;border:1px solid #E6ECF7;border-radius:18px;padding:28px 18px;"><div style="font-size:38px;font-weight:800;letter-spacing:-1px;background:linear-gradient(120deg,#2563FF,#7A5CFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;">&lt; 24 h</div><div style="font-size:14px;font-weight:600;color:#45506E;margin-top:4px;">Reaktionszeit im Support</div></div>
+    </div>
+  </section>
+
+  <section id="kontakt" style="max-width:1180px;margin:0 auto;padding:24px 24px 80px;">
+    <div style="background:linear-gradient(120deg,#2563FF 0%,#7A5CFF 55%,#21D4FD 100%);border-radius:22px;padding:56px;text-align:center;color:#fff;">
+      <h2 style="font-size:36px;font-weight:800;letter-spacing:-.7px;margin:0 0 14px;">Bereit für eine IT, die einfach funktioniert?</h2>
+      <p style="font-size:17px;color:rgba(255,255,255,0.92);max-width:560px;margin:0 auto 30px;line-height:1.6;">Kostenlose Erstberatung für Ihr Projekt — persönlich und unverbindlich. Wir melden uns innerhalb von 24 Stunden.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <span style="display:flex;align-items:center;gap:9px;background:#fff;color:#0B1437;border-radius:11px;padding:15px 28px;font-size:15px;font-weight:700;"><i class="ph ph-phone-call" style="font-size:18px;"></i> +49 30 1234 5678</span>
+        <span style="display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.16);color:#fff;border:1px solid rgba(255,255,255,0.35);border-radius:11px;padding:15px 28px;font-size:15px;font-weight:700;"><i class="ph ph-envelope-simple" style="font-size:18px;"></i> kontakt@gonj.de</span>
+      </div>
+    </div>
+  </section>
+
+  <div id="gonj-footer"></div>
+</div>
+<script src="gonj-shared.js"></script>
+<script>
+renderGonjNav('gonj-nav');renderGonjFooter('gonj-footer');
+
+var IX_STEPS = [
+  { title: 'Analyse', detail: 'Wir nehmen Ihre aktuelle Situation auf: bestehende Technik, Anzahl der Arbeitsplätze, Anforderungen und Budget. Daraus entsteht ein klares Bild Ihres Bedarfs.', bullets: [
+    { icon: 'magnifying-glass', title: 'Bestandsaufnahme', desc: 'Vor-Ort-Begehung & Ist-Analyse' },
+    { icon: 'users-three', title: 'Anforderungen', desc: 'Arbeitsplätze, Software, Wachstum' },
+    { icon: 'wallet', title: 'Budgetrahmen', desc: 'Transparente Kostenschätzung' } ] },
+  { title: 'Planung', detail: 'Auf Basis der Analyse erstellen wir das Konzept: Netzwerkplan, Server-Dimensionierung, Sicherheits- und Backup-Strategie sowie die passende Lizenzierung.', bullets: [
+    { icon: 'blueprint', title: 'Netzwerkplan', desc: 'Topologie, VLANs, WLAN-Abdeckung' },
+    { icon: 'hard-drives', title: 'Server-Konzept', desc: 'Physisch oder virtualisiert' },
+    { icon: 'shield-check', title: 'Sicherheit & Backup', desc: 'Firewall, VPN, Wiederherstellung' } ] },
+  { title: 'Beschaffung', detail: 'Wir kaufen die komplette Hardware für Sie ein — zu fairen Konditionen über unsere Distributoren: Server, Arbeitsplätze, Netzwerktechnik und Peripherie.', bullets: [
+    { icon: 'hard-drive', title: 'Server & Storage', desc: 'Markengeräte nach Konzept' },
+    { icon: 'desktop', title: 'Arbeitsplätze', desc: 'PCs, Notebooks, Monitore' },
+    { icon: 'wifi-high', title: 'Netzwerktechnik', desc: 'Switches, Router, Access Points' } ] },
+  { title: 'Aufbau', detail: 'Unser Team baut alles vor Ort auf: strukturierte Verkabelung, Serverschrank, Netzwerktechnik und alle Arbeitsplätze — sauber, beschriftet und getestet.', bullets: [
+    { icon: 'plugs-connected', title: 'Verkabelung', desc: 'Strukturiert & dokumentiert' },
+    { icon: 'cpu', title: 'Rack & Server', desc: 'Montage und Inbetriebnahme' },
+    { icon: 'monitor', title: 'Arbeitsplätze', desc: 'Aufbau & Anschluss' } ] },
+  { title: 'Konfiguration', detail: 'Jetzt wird alles eingerichtet: Domäne, zentraler File-Server mit Rechteverwaltung, E-Mail, Backups und die Datenmigration aus Ihren Altsystemen.', bullets: [
+    { icon: 'tree-structure', title: 'Domäne & Benutzer', desc: 'Active Directory, Rechte' },
+    { icon: 'folders', title: 'File-Server', desc: 'Zentrale Ablage & Freigaben' },
+    { icon: 'arrows-left-right', title: 'Datenmigration', desc: 'Sichere Übernahme der Daten' } ] },
+  { title: 'Betrieb', detail: 'Nach der Übergabe lassen wir Sie nicht allein: Einweisung der Mitarbeitenden, laufende Wartung, Monitoring und schnelle Hilfe per Fernwartung oder vor Ort.', bullets: [
+    { icon: 'graduation-cap', title: 'Schulung', desc: 'Einweisung Ihres Teams' },
+    { icon: 'activity', title: 'Monitoring', desc: '24/7 Überwachung der Systeme' },
+    { icon: 'headset', title: 'Support', desc: 'Wartung & schnelle Reaktion' } ] },
+];
+var ixStep = 0;
+function renderIx() {
+  var stepsEl = document.getElementById('ix-steps');
+  stepsEl.innerHTML = IX_STEPS.map(function (s, i) {
+    var cls = 'ix-step' + (i === ixStep ? ' active' : (i < ixStep ? ' done' : ''));
+    var lineColor = i < IX_STEPS.length - 1 ? (i < ixStep ? '#2563FF' : '#E6ECF7') : 'transparent';
+    return '<button type="button" class="' + cls + '" data-i="' + i + '" style="border:none;">' +
+      '<div style="position:absolute;top:23px;left:50%;width:100%;height:2px;background:' + lineColor + ';z-index:0;"></div>' +
+      '<div class="ix-circle">' + (i + 1) + '</div><span class="ix-step-label">' + s.title + '</span></button>';
+  }).join('');
+  Array.prototype.forEach.call(stepsEl.querySelectorAll('.ix-step'), function (b) { b.onclick = function () { ixStep = parseInt(b.getAttribute('data-i'), 10); renderIx(); }; });
+
+  var s = IX_STEPS[ixStep];
+  document.getElementById('ix-detail').innerHTML =
+    '<div><div style="display:inline-flex;align-items:center;gap:9px;font-family:\'IBM Plex Mono\',monospace;font-size:13px;font-weight:600;color:#2563FF;background:#E6ECFB;padding:6px 13px;border-radius:8px;margin-bottom:16px;">Phase ' + (ixStep + 1) + ' / 6</div>' +
+    '<h3 style="font-size:27px;font-weight:800;letter-spacing:-.5px;margin:0 0 12px;">' + s.title + '</h3>' +
+    '<p style="font-size:15.5px;line-height:1.65;color:#45506E;margin:0;">' + s.detail + '</p></div>' +
+    '<div style="display:flex;flex-direction:column;gap:12px;">' + s.bullets.map(function (b) {
+      return '<div style="display:flex;align-items:flex-start;gap:13px;background:#fff;border:1px solid #E6ECF7;border-radius:13px;padding:15px 17px;"><div style="width:30px;height:30px;flex-shrink:0;border-radius:8px;background:linear-gradient(120deg,#2563FF,#21D4FD);display:flex;align-items:center;justify-content:center;"><i class="ph ph-' + b.icon + '" style="font-size:16px;color:#fff;"></i></div><div><div style="font-size:14px;font-weight:700;color:#0B1437;">' + b.title + '</div><div style="font-size:13px;color:#45506E;">' + b.desc + '</div></div></div>';
+    }).join('') + '</div>';
+}
+renderIx();
+
+var INFRA = ['Strukturierte Verkabelung','Switching & Routing','WLAN-Ausleuchtung','Firewall & VPN','Domänencontroller (AD)','Virtualisierung','Zentraler File-Server','Backup & Recovery','Arbeitsplatz-PCs & Notebooks','Drucker & Peripherie','E-Mail & Microsoft 365','Monitoring & Fernwartung'];
+document.getElementById('ix-infra').innerHTML = INFRA.map(function (i) {
+  return '<div style="display:flex;align-items:center;gap:11px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:11px;padding:13px 15px;"><i class="ph ph-check-circle-fill" style="font-size:18px;color:#3DD68C;flex-shrink:0;"></i><span style="font-size:13.5px;font-weight:600;color:#D8DEEA;">' + i + '</span></div>';
+}).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PflegePilot — Pflege-Disposition (Beispiel)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-thumb{background:#c4d3d2;border-radius:8px;border:2px solid transparent;background-clip:content-box;}
+  .ph{line-height:1;display:inline-block;}
+  a{color:#2563FF;text-decoration:none;}
+  @keyframes pp-fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  .pp-navitem{display:flex;align-items:center;gap:13px;padding:10px 16px;margin:1px 12px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:#8FA9A8;background:transparent;transition:all .15s;}
+  .pp-navitem:hover{background:rgba(255,255,255,0.06);}
+  .pp-navitem.active{color:#fff;font-weight:700;background:rgba(54,197,197,0.15);box-shadow:inset 3px 0 0 #21D4FD;}
+  .pp-badge{background:#E8654F;color:#fff;font-size:11px;font-weight:700;min-width:19px;height:19px;padding:0 5px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-left:auto;}
+</style>
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+<div style="display:flex;flex-direction:column;height:100vh;width:100%;font-family:'Inter',system-ui,-apple-system,sans-serif;">
+  <div style="flex-shrink:0;padding:10px 16px 0;background:#EDEEF6;"><div id="gonj-nav"></div></div>
+  <div style="display:flex;flex:1;min-height:0;width:100%;overflow:hidden;color:#0B1437;background:#F5F8FF;-webkit-font-smoothing:antialiased;">
+
+    <aside style="width:256px;flex-shrink:0;background:linear-gradient(180deg,#0B1437 0%,#16245E 100%);display:flex;flex-direction:column;">
+      <div style="display:flex;align-items:center;gap:12px;padding:22px 20px 20px;height:78px;">
+        <div style="width:38px;height:38px;flex-shrink:0;border-radius:11px;background:linear-gradient(120deg,#2563FF,#7A5CFF,#21D4FD);display:flex;align-items:center;justify-content:center;"><i class="ph ph-heartbeat" style="font-size:22px;color:#fff;"></i></div>
+        <div><div style="font-size:17px;font-weight:800;color:#fff;letter-spacing:-.3px;">PflegePilot</div><div style="font-size:10.5px;font-weight:600;color:#7E89A3;letter-spacing:.8px;text-transform:uppercase;">Pflege-Disposition</div></div>
+      </div>
+      <nav style="flex:1;overflow-y:auto;padding:6px 0 14px;" id="pp-nav"></nav>
+      <div style="padding:14px 16px;border-top:1px solid rgba(255,255,255,0.09);display:flex;align-items:center;gap:11px;">
+        <div style="width:36px;height:36px;flex-shrink:0;border-radius:50%;background:#2C3A70;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#C7CEDF;">DK</div>
+        <div><div style="font-size:13.5px;font-weight:700;color:#EAEEF6;">Dr. Katja Lindner</div><div style="font-size:11.5px;color:#7E89A3;">Pflegedienstleitung</div></div>
+      </div>
+    </aside>
+
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;">
+      <header style="height:78px;flex-shrink:0;background:#fff;border-bottom:1px solid #E6ECF7;display:flex;align-items:center;gap:20px;padding:0 30px;">
+        <div style="flex:1;min-width:0;">
+          <div id="pp-title" style="font-size:21px;font-weight:800;letter-spacing:-.4px;color:#0B1437;"></div>
+          <div id="pp-subtitle" style="font-size:13px;color:#45506E;margin-top:1px;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;background:#F5F8FF;border:1px solid #E6ECF7;border-radius:11px;padding:9px 14px;width:280px;">
+          <i class="ph ph-magnifying-glass" style="font-size:17px;color:#8FA3A2;"></i>
+          <input placeholder="Suchen … (Name, Station, Schicht)" style="border:none;background:transparent;outline:none;font-family:inherit;font-size:13.5px;color:#0B1437;width:100%;" />
+        </div>
+        <button onclick="ppGo('dienstplan')" style="display:flex;align-items:center;gap:8px;background:#2563FF;color:#fff;border:none;border-radius:11px;padding:11px 18px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;"><i class="ph ph-plus" style="font-size:16px;"></i> Neue Schicht</button>
+        <button onclick="ppGo('alarme')" style="position:relative;width:44px;height:44px;flex-shrink:0;background:#F5F8FF;border:1px solid #E6ECF7;border-radius:11px;cursor:pointer;"><i class="ph ph-bell" style="font-size:19px;color:#45506E;"></i><span style="position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:#E8654F;border:2px solid #fff;"></span></button>
+      </header>
+      <main id="pp-main" style="flex:1;overflow-y:auto;padding:28px 30px 48px;"></main>
+    </div>
+  </div>
+  <div id="pp-toast" style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#0B1437;color:#fff;padding:14px 22px;border-radius:13px;font-size:14px;font-weight:600;display:none;align-items:center;gap:11px;box-shadow:0 12px 32px rgba(0,0,0,0.25);z-index:100;"><i class="ph ph-check-circle-fill" style="font-size:20px;color:#21D4FD;"></i><span id="pp-toast-text"></span></div>
+</div>
+<script src="gonj-shared.js"></script>
+<script>
+renderGonjNav('gonj-nav');renderGonjFooter && null;
+
+var days7=['Mo','Di','Mi','Do','Fr','Sa','So'];
+var dayDates=['22.06','23.06','24.06','25.06','26.06','27.06','28.06'];
+var shifts=[{id:'frueh',label:'Frühdienst',time:'06:00–14:00',color:'#2563FF',tint:'#E6ECFB'},{id:'spaet',label:'Spätdienst',time:'14:00–22:00',color:'#2563FF',tint:'#E6ECFB'},{id:'nacht',label:'Nachtdienst',time:'22:00–06:00',color:'#7A5CFF',tint:'#F0ECFE'}];
+var nurses=[
+ {id:'n1',name:'Lena Hofmann',short:'L. Hofmann',role:'Pflegefachkraft',station:'Station 3 · Geriatrie',initials:'LH',color:'#2563FF',status:'Im Dienst',rating:'4,8',contract:'Vollzeit',ist:172,ev:[96,94,90,92,88]},
+ {id:'n2',name:'Markus Brandt',short:'M. Brandt',role:'Altenpfleger',station:'Station 1 · Innere',initials:'MB',color:'#12B76A',status:'Verfügbar',rating:'4,6',contract:'Teilzeit',ist:104,ev:[88,90,92,86,80]},
+ {id:'n3',name:'Sofia Keller',short:'S. Keller',role:'Pflegefachkraft',station:'Intensivstation',initials:'SK',color:'#2563FF',status:'Verfügbar',rating:'4,9',contract:'Vollzeit',ist:178,ev:[98,97,94,95,93]},
+ {id:'n4',name:'Jonas Weber',short:'J. Weber',role:'Pflegehelfer',station:'Station 2',initials:'JW',color:'#F0913A',status:'Krank',rating:'4,2',contract:'Minijob',ist:38,ev:[82,78,86,80,74]},
+ {id:'n5',name:'Amelie Roth',short:'A. Roth',role:'Pflegefachkraft',station:'Ambulanter Dienst',initials:'AR',color:'#7A5CFF',status:'Verfügbar',rating:'4,7',contract:'Vollzeit',ist:166,ev:[92,93,95,90,88]},
+ {id:'n6',name:'David Schulz',short:'D. Schulz',role:'Altenpfleger',station:'Station 3 · Geriatrie',initials:'DS',color:'#F04438',status:'Im Dienst',rating:'4,5',contract:'Teilzeit',ist:112,ev:[86,88,84,90,82]},
+ {id:'n7',name:'Clara Vogt',short:'C. Vogt',role:'Pflegehelferin',station:'Ambulanter Dienst',initials:'CV',color:'#21D4FD',status:'Verfügbar',rating:'4,4',contract:'Teilzeit',ist:98,ev:[84,82,90,88,80]},
+ {id:'n8',name:'Tobias Frank',short:'T. Frank',role:'Pflegefachkraft',station:'Intensivstation',initials:'TF',color:'#45506E',status:'Verfügbar',rating:'4,8',contract:'Vollzeit',ist:174,ev:[94,96,89,93,90]}
+];
+var permKeys=['Dienstplan bearbeiten','Pflegekräfte verwalten','Finanzen einsehen','Bewertungen verwalten','Benachrichtigungen senden','Systemeinstellungen'];
+var permRoleList=['Administrator','Disponent','Personalleitung','Pflegekraft'];
+var nById={}; nurses.forEach(function(n){nById[n.id]=n;});
+
+var state={view:'dashboard',assignments:{'frueh-Mo':'n1','spaet-Mo':'n6','nacht-Mo':'n8','frueh-Di':'n3','spaet-Di':'n2','frueh-Mi':'n5','nacht-Mi':'n8','frueh-Do':'n1','spaet-Fr':'n6','frueh-Fr':'n3'},dragId:null,selEval:'n3',chatInput:'',activeConvId:'c1',
+ messages:{c1:[{from:'them',text:'Hallo, kannst du am Freitag den Spätdienst übernehmen?',time:'09:12'},{from:'me',text:'Klar, ich trage mich ein. Station 3?',time:'09:14'},{from:'them',text:'Genau, danke dir! 🙏',time:'09:15'}],c2:[{from:'them',text:'Die Übergabe-Doku liegt im System.',time:'08:40'}],c3:[{from:'them',text:'Team-Meeting morgen um 14 Uhr.',time:'Gestern'}],c4:[{from:'them',text:'Willkommen im Team, Nina!',time:'Mo'}]},
+ perms:{'Administrator':{0:true,1:true,2:true,3:true,4:true,5:true},'Disponent':{0:true,1:true,2:false,3:false,4:true,5:false},'Personalleitung':{0:false,1:true,2:true,3:true,4:true,5:false},'Pflegekraft':{0:false,1:false,2:false,3:false,4:false,5:false}}};
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function flash(msg){document.getElementById('pp-toast-text').textContent=msg;var t=document.getElementById('pp-toast');t.style.display='flex';clearTimeout(window._ppT);window._ppT=setTimeout(function(){t.style.display='none';},3200);}
+function ppGo(v){state.view=v;render();}
+window.ppGo=ppGo;
+
+var NAV_GROUPS=[
+ {group:'Verwaltung',items:[['dashboard','Übersicht','squares-four'],['dienstplan','Dienstplan','calendar-dots'],['pflegekraefte','Pflegekräfte','users-three'],['arbeitszeiten','Arbeitszeiten','clock-countdown']]},
+ {group:'Auswertung',items:[['bewertung','Bewertung','star'],['finanzen','Finanzen','currency-eur']]},
+ {group:'Kommunikation',items:[['alarme','Benachrichtigungen','bell-ringing',4],['nachrichten','Nachrichten','chat-circle-dots',3]]},
+ {group:'System',items:[['berechtigungen','Berechtigungen','shield-check'],['einstellungen','Einstellungen','gear-six']]}
+];
+var TITLES={dashboard:['Übersicht','Willkommen zurück, Dr. Lindner — hier ist der heutige Überblick'],dienstplan:['Dienstplanung','Schichten per Drag & Drop zuweisen oder automatisch verteilen'],pflegekraefte:['Pflegekräfte','Personalverwaltung & Onboarding'],arbeitszeiten:['Arbeitszeiten','Soll-/Ist-Stunden und Überstunden'],bewertung:['Bewertung','Leistungsbeurteilung der Pflegekräfte'],finanzen:['Finanzen','Umsatz, Löhne und Abrechnungen'],alarme:['Benachrichtigungen','Alarme & Mitteilungen'],nachrichten:['Nachrichten','Team-Kommunikation'],berechtigungen:['Berechtigungen','Rollen & Zugriffsrechte'],einstellungen:['Einstellungen','Systemkonfiguration']};
+
+function renderNav(){
+  document.getElementById('pp-nav').innerHTML=NAV_GROUPS.map(function(g){
+    return '<div style="margin:14px 0 2px;"><div style="padding:6px 24px;font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#4A5A85;">'+g.group+'</div>'+
+      g.items.map(function(it){
+        var active=state.view===it[0];
+        return '<div class="pp-navitem'+(active?' active':'')+'" data-view="'+it[0]+'"><i class="ph ph-'+it[2]+'" style="font-size:19px;flex-shrink:0;"></i><span style="flex:1;white-space:nowrap;">'+it[1]+'</span>'+(it[3]?'<span class="pp-badge">'+it[3]+'</span>':'')+'</div>';
+      }).join('')+'</div>';
+  }).join('');
+  Array.prototype.forEach.call(document.querySelectorAll('.pp-navitem'),function(el){el.onclick=function(){ppGo(el.getAttribute('data-view'));};});
+}
+
+function statusColors(status){return {'Im Dienst':['#2563FF','#E6ECFB'],'Verfügbar':['#12B76A','#E7F7EF'],'Krank':['#F04438','#FDEBEA']}[status]||['#6B7794','#F5F8FF'];}
+
+function renderDashboard(){
+  var kpis=[{label:'Aktive Pflegekräfte',value:'42',icon:'users-three',color:'#2563FF',tint:'#E6ECFB',delta:'+3'},{label:'Offene Schichten',value:'7',icon:'calendar-x',color:'#F04438',tint:'#FDEBEA',delta:'−2'},{label:'Auslastung',value:'87%',icon:'gauge',color:'#2563FF',tint:'#E6ECFB',delta:'+5%'},{label:'Monatsumsatz',value:'128,4 T€',icon:'currency-eur',color:'#7A5CFF',tint:'#F0ECFE',delta:'+8%'}];
+  var topAlarms=[{icon:'warning-circle',color:'#F04438',tint:'#FDEBEA',title:'Nachtdienst unbesetzt',desc:'Fr · Station 2 — keine Zuweisung',time:'vor 5 Min'},{icon:'clock-countdown',color:'#F0913A',tint:'#FEF1E4',title:'Überstunden-Limit',desc:'Sofia Keller nähert sich 180 h',time:'vor 1 Std'},{icon:'certificate',color:'#2563FF',tint:'#E6ECFB',title:'Zertifikat läuft ab',desc:'Markus Brandt — Erste Hilfe',time:'heute'}];
+  var topNurses=nurses.slice().sort(function(a,b){return b.rating.localeCompare(a.rating);}).slice(0,4);
+  return '<div style="animation:pp-fade .3s ease both;">'+
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:18px;">'+kpis.map(function(k){
+      return '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="width:42px;height:42px;border-radius:12px;background:'+k.tint+';display:flex;align-items:center;justify-content:center;"><i class="ph ph-'+k.icon+'" style="font-size:21px;color:'+k.color+';"></i></div><span style="font-size:12px;font-weight:700;color:#12B76A;background:#E7F7EF;padding:4px 9px;border-radius:8px;">'+k.delta+'</span></div><div style="font-size:28px;font-weight:800;color:#0B1437;">'+k.value+'</div><div style="font-size:13px;color:#45506E;margin-top:2px;">'+k.label+'</div></div>';
+    }).join('')+'</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1.05fr;gap:18px;">'+
+      '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px 22px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Aktuelle Alarme</div><span onclick="ppGo(\'alarme\')" style="font-size:13px;font-weight:600;color:#2563FF;cursor:pointer;">Alle ansehen</span></div>'+
+      topAlarms.map(function(a){return '<div style="display:flex;gap:13px;align-items:flex-start;padding:12px 13px;border-radius:12px;background:'+a.tint+';margin-bottom:8px;"><i class="ph ph-'+a.icon+'" style="font-size:19px;color:'+a.color+';margin-top:1px;"></i><div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:700;color:#0B1437;">'+a.title+'</div><div style="font-size:12.5px;color:#45506E;margin-top:1px;">'+a.desc+'</div></div><span style="font-size:11.5px;color:#8A93A7;white-space:nowrap;">'+a.time+'</span></div>';}).join('')+'</div>'+
+      '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px 22px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Top Pflegekräfte</div><span onclick="ppGo(\'pflegekraefte\')" style="font-size:13px;font-weight:600;color:#2563FF;cursor:pointer;">Alle ansehen</span></div>'+
+      topNurses.map(function(n){return '<div style="display:flex;align-items:center;gap:13px;padding:11px 0;border-bottom:1px solid #F0F4F3;"><div style="width:40px;height:40px;flex-shrink:0;border-radius:11px;background:'+n.color+';display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;">'+n.initials+'</div><div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#0B1437;">'+n.name+'</div><div style="font-size:12px;color:#45506E;">'+n.role+' · '+n.station+'</div></div><div style="display:flex;align-items:center;gap:5px;font-weight:700;font-size:13.5px;color:#F0913A;"><i class="ph ph-star-fill" style="font-size:14px;"></i>'+n.rating+'</div></div>';}).join('')+'</div>'+
+    '</div></div>';
+}
+
+function renderPlan(){
+  var days=days7;
+  var gridCols='150px repeat('+days.length+',1fr)';
+  var dayNames=['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'];
+  var headHtml=days.map(function(d,i){var we=(d==='Sa'||d==='So');return '<div style="text-align:center;padding:8px 0;border-radius:9px;background:'+(we?'#F5F8FF':'#EAF0FE')+';"><div style="font-size:12.5px;font-weight:700;color:'+(we?'#6B7794':'#2563FF')+';">'+dayNames[i]+'</div><div style="font-size:11px;color:#8A93A7;">'+dayDates[i]+'</div></div>';}).join('');
+  var rowsHtml=shifts.map(function(sh){
+    var cells=days.map(function(d){var key=sh.id+'-'+d;var nurse=nById[state.assignments[key]];
+      return '<div class="pp-cell" data-key="'+key+'" style="min-height:60px;border-radius:11px;border:1.5px dashed #DCE7E6;background:#F5F8FF;padding:5px;display:flex;align-items:center;">'+
+        (nurse?'<div style="width:100%;display:flex;align-items:center;gap:7px;background:'+nurse.color+';border-radius:8px;padding:6px 7px;"><div style="width:24px;height:24px;flex-shrink:0;border-radius:6px;background:rgba(255,255,255,0.22);display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#fff;">'+nurse.initials+'</div><span style="flex:1;min-width:0;font-size:11.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+nurse.short+'</span><i class="ph ph-x pp-remove" data-key="'+key+'" style="font-size:13px;color:rgba(255,255,255,0.8);cursor:pointer;"></i></div>':'')+'</div>';
+    }).join('');
+    return '<div style="display:grid;grid-template-columns:'+gridCols+';gap:8px;margin-bottom:8px;"><div style="display:flex;flex-direction:column;justify-content:center;padding:10px 12px;border-radius:11px;background:'+sh.tint+';border-left:3px solid '+sh.color+';"><div style="font-size:13px;font-weight:700;color:#0B1437;">'+sh.label+'</div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#45506E;">'+sh.time+'</div></div>'+cells+'</div>';
+  }).join('');
+  var pool=nurses.filter(function(n){return n.status!=='Krank';}).map(function(n){
+    return '<div class="pp-drag" draggable="true" data-id="'+n.id+'" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:1px solid #E6ECF7;border-radius:11px;background:#FAFBFF;cursor:grab;"><div style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:'+n.color+';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;">'+n.initials+'</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:#0B1437;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+n.name+'</div><div style="font-size:11px;color:#45506E;">'+n.role+'</div></div><i class="ph ph-dots-six-vertical" style="font-size:16px;color:#B6C7C6;"></i></div>';
+  }).join('');
+  return '<div style="animation:pp-fade .3s ease both;display:grid;grid-template-columns:1fr 260px;gap:18px;align-items:start;">'+
+    '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px 22px;">'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px;"><div style="display:flex;align-items:center;gap:12px;"><button style="width:34px;height:34px;border:1px solid #E6ECF7;background:#F5F8FF;border-radius:9px;cursor:pointer;color:#45506E;"><i class="ph ph-caret-left"></i></button><div style="font-size:15.5px;font-weight:700;color:#0B1437;">KW 26 · 22.–28. Juni 2026</div><button style="width:34px;height:34px;border:1px solid #E6ECF7;background:#F5F8FF;border-radius:9px;cursor:pointer;color:#45506E;"><i class="ph ph-caret-right"></i></button></div>'+
+    '<div style="display:flex;gap:9px;"><button onclick="ppClearPlan()" style="display:flex;align-items:center;gap:7px;background:#fff;color:#45506E;border:1px solid #E6ECF7;border-radius:10px;padding:9px 14px;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;"><i class="ph ph-eraser"></i> Leeren</button><button onclick="ppAutoAssign()" style="display:flex;align-items:center;gap:7px;background:#2563FF;color:#fff;border:none;border-radius:10px;padding:9px 15px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;"><i class="ph ph-magic-wand"></i> Automatisch zuweisen</button></div></div>'+
+    '<div style="display:grid;grid-template-columns:'+gridCols+';gap:8px;margin-bottom:8px;"><div></div>'+headHtml+'</div>'+rowsHtml+'</div>'+
+    '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:18px;position:sticky;top:0;"><div style="font-size:14.5px;font-weight:700;color:#0B1437;">Verfügbare Kräfte</div><div style="font-size:12px;color:#45506E;margin-bottom:14px;">In den Plan ziehen ↗</div><div style="display:flex;flex-direction:column;gap:9px;">'+pool+'</div></div></div>';
+}
+function wirePlan(){
+  Array.prototype.forEach.call(document.querySelectorAll('.pp-drag'),function(el){el.ondragstart=function(e){state.dragId=el.getAttribute('data-id');try{e.dataTransfer.setData('text/plain',state.dragId);}catch(err){}};});
+  Array.prototype.forEach.call(document.querySelectorAll('.pp-cell'),function(el){
+    el.ondragover=function(e){e.preventDefault();};
+    el.ondrop=function(e){e.preventDefault();var id=state.dragId;if(!id)return;state.assignments[el.getAttribute('data-key')]=id;state.dragId=null;render();};
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.pp-remove'),function(el){el.onclick=function(e){e.stopPropagation();delete state.assignments[el.getAttribute('data-key')];render();};});
+}
+function ppAutoAssign(){
+  var avail=nurses.filter(function(n){return n.status!=='Krank';});
+  var a=state.assignments,count=0,i=0;
+  days7.forEach(function(d){shifts.forEach(function(sh){var k=sh.id+'-'+d;if(!a[k]){a[k]=avail[i%avail.length].id;i++;count++;}});});
+  render(); flash('Dienstplan automatisch erstellt · '+count+' Schichten zugewiesen');
+}
+function ppClearPlan(){state.assignments={};render();flash('Dienstplan geleert');}
+window.ppAutoAssign=ppAutoAssign; window.ppClearPlan=ppClearPlan;
+
+function renderNurses(){
+  var onDuty=nurses.filter(function(n){return n.status==='Im Dienst';}).length;
+  var rows=nurses.map(function(n){var sc=statusColors(n.status);
+    return '<div style="display:grid;grid-template-columns:1.7fr 1.1fr 0.9fr 0.9fr;gap:14px;align-items:center;padding:13px 22px;border-bottom:1px solid #F2F6F5;"><div style="display:flex;align-items:center;gap:12px;min-width:0;"><div style="width:40px;height:40px;flex-shrink:0;border-radius:11px;background:'+n.color+';display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#fff;">'+n.initials+'</div><div style="min-width:0;"><div style="font-size:14px;font-weight:700;color:#0B1437;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+n.name+'</div><div style="font-size:12px;color:#45506E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+n.station+'</div></div></div><div style="font-size:13px;color:#45506E;">'+n.role+'</div><div style="font-size:13px;color:#45506E;">'+n.contract+'</div><div style="text-align:right;"><span style="font-size:11.5px;font-weight:700;color:'+sc[0]+';background:'+sc[1]+';padding:5px 10px;border-radius:8px;white-space:nowrap;">'+n.status+'</span></div></div>';
+  }).join('');
+  return '<div style="animation:pp-fade .3s ease both;display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start;">'+
+    '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;"><div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #EEF3F2;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Alle Pflegekräfte · '+nurses.length+'</div><div style="display:flex;gap:8px;"><span style="font-size:12px;font-weight:600;color:#2563FF;background:#E6ECFB;padding:6px 11px;border-radius:8px;">Im Dienst '+onDuty+'</span><span style="font-size:12px;font-weight:600;color:#F0913A;background:#FEF1E4;padding:6px 11px;border-radius:8px;">Krank 1</span></div></div>'+
+    '<div style="display:grid;grid-template-columns:1.7fr 1.1fr 0.9fr 0.9fr;gap:14px;padding:11px 22px;background:#F5F8FF;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B7794;"><div>Pflegekraft</div><div>Qualifikation</div><div>Vertrag</div><div style="text-align:right;">Status</div></div>'+rows+'</div>'+
+    '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:22px;"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;"><div style="width:34px;height:34px;border-radius:10px;background:#E6ECFB;display:flex;align-items:center;justify-content:center;"><i class="ph ph-user-plus" style="font-size:18px;color:#2563FF;"></i></div><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Pflegekraft anmelden</div></div><div style="font-size:12.5px;color:#45506E;margin-bottom:18px;">Onboarding · Schritt 2 von 3</div>'+
+    '<div style="display:flex;flex-direction:column;gap:14px;"><div><label style="font-size:12px;font-weight:600;color:#45506E;display:block;margin-bottom:6px;">Vollständiger Name</label><input value="Nina Sommer" style="width:100%;padding:11px 13px;border:1px solid #E6ECF7;border-radius:10px;font-family:inherit;font-size:13.5px;color:#0B1437;outline:none;" /></div>'+
+    '<div style="display:flex;gap:12px;"><div style="flex:1;"><label style="font-size:12px;font-weight:600;color:#45506E;display:block;margin-bottom:6px;">Qualifikation</label><div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border:1px solid #E6ECF7;border-radius:10px;font-size:13.5px;color:#0B1437;">Pflegefachkraft <i class="ph ph-caret-down" style="color:#9CB0AF;"></i></div></div><div style="flex:1;"><label style="font-size:12px;font-weight:600;color:#45506E;display:block;margin-bottom:6px;">Vertrag</label><div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border:1px solid #E6ECF7;border-radius:10px;font-size:13.5px;color:#0B1437;">Vollzeit <i class="ph ph-caret-down" style="color:#9CB0AF;"></i></div></div></div>'+
+    '<div><label style="font-size:12px;font-weight:600;color:#45506E;display:block;margin-bottom:6px;">Station / Einsatzort</label><input value="Station 3 · Geriatrie" style="width:100%;padding:11px 13px;border:1px solid #E6ECF7;border-radius:10px;font-family:inherit;font-size:13.5px;color:#0B1437;outline:none;" /></div>'+
+    '<button onclick="flash(\'Pflegekraft gespeichert\')" style="margin-top:4px;background:#2563FF;color:#fff;border:none;border-radius:11px;padding:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;">Weiter zu Schritt 3 →</button></div></div></div>';
+}
+
+function renderHours(){
+  function sollFor(c){return c==='Vollzeit'?168:c==='Teilzeit'?104:43;}
+  var rows=nurses.map(function(n){var soll=sollFor(n.contract),saldo=n.ist-soll,pct=Math.min(Math.round(n.ist/180*100),100);
+    return '<div style="display:grid;grid-template-columns:1.5fr 0.8fr 0.8fr 0.9fr 1.4fr;align-items:center;padding:14px 24px;border-bottom:1px solid #F2F6F5;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:36px;height:36px;flex-shrink:0;border-radius:10px;background:'+n.color+';display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff;">'+n.initials+'</div><div><div style="font-size:13.5px;font-weight:700;color:#0B1437;">'+n.name+'</div><div style="font-size:11.5px;color:#45506E;">'+n.contract+'</div></div></div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:#45506E;">'+soll+' h</div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;font-weight:600;color:#0B1437;">'+n.ist+' h</div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;font-weight:700;color:'+(saldo>0?'#F0913A':saldo<0?'#F04438':'#12B76A')+';">'+(saldo>=0?'+':'')+saldo+' h</div><div style="display:flex;align-items:center;gap:10px;"><div style="flex:1;height:8px;border-radius:5px;background:#ECF3F2;overflow:hidden;"><div style="height:100%;width:'+pct+'%;background:'+(pct>=95?'#F0913A':'linear-gradient(90deg,#21D4FD,#2563FF)')+';border-radius:5px;"></div></div><span style="font-size:12px;font-weight:600;color:#45506E;width:38px;">'+pct+'%</span></div></div>';
+  }).join('');
+  return '<div style="animation:pp-fade .3s ease both;background:#fff;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;"><div style="padding:18px 24px;border-bottom:1px solid #EEF3F2;display:flex;align-items:center;justify-content:space-between;"><div><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Arbeitszeitkonten · Juni 2026</div><div style="font-size:12.5px;color:#45506E;">Soll- und Ist-Stunden je Pflegekraft</div></div><span style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;font-weight:600;color:#2563FF;">Σ Überstunden +84 h</span></div>'+
+  '<div style="display:grid;grid-template-columns:1.5fr 0.8fr 0.8fr 0.9fr 1.4fr;padding:11px 24px;background:#F5F8FF;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B7794;"><div>Pflegekraft</div><div>Soll</div><div>Ist</div><div>Saldo</div><div>Auslastung</div></div>'+rows+'</div>';
+}
+
+function renderEval(){
+  var evalLabels=['Pünktlichkeit','Fachkompetenz','Empathie','Teamarbeit','Dokumentation'];
+  var n=nById[state.selEval]||nurses[0];
+  var list=nurses.map(function(x){var sel=x.id===state.selEval;
+    return '<div class="pp-evalrow" data-id="'+x.id+'" style="display:flex;align-items:center;gap:11px;padding:10px 8px;border-radius:11px;cursor:pointer;background:'+(sel?'#EAF0FE':'transparent')+';'+(sel?'box-shadow:inset 2px 0 0 #2563FF;':'')+'"><div style="width:36px;height:36px;flex-shrink:0;border-radius:10px;background:'+x.color+';display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff;">'+x.initials+'</div><div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:700;color:#0B1437;">'+x.name+'</div><div style="font-size:11.5px;color:#45506E;">'+x.role+'</div></div><div style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:#F0913A;"><i class="ph ph-star-fill" style="font-size:13px;"></i>'+x.rating+'</div></div>';
+  }).join('');
+  var metrics=evalLabels.map(function(l,i){var score=(n.ev[i]/20).toFixed(1).replace('.',',')+' / 5';
+    return '<div><div style="display:flex;justify-content:space-between;margin-bottom:7px;"><span style="font-size:13.5px;font-weight:600;color:#45506E;">'+l+'</span><span style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;font-weight:600;color:#0B1437;">'+score+'</span></div><div style="height:9px;border-radius:6px;background:#ECF3F2;overflow:hidden;"><div style="height:100%;width:'+n.ev[i]+'%;background:linear-gradient(90deg,#21D4FD,#2563FF);border-radius:6px;"></div></div></div>';
+  }).join('');
+  var out='<div style="animation:pp-fade .3s ease both;display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start;">'+
+  '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:14px;"><div style="font-size:13px;font-weight:700;color:#6B7794;text-transform:uppercase;letter-spacing:.5px;padding:6px 8px 10px;">Pflegekraft wählen</div>'+list+'</div>'+
+  '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:24px;"><div style="display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:1px solid #EEF3F2;margin-bottom:22px;"><div style="width:60px;height:60px;border-radius:16px;background:'+n.color+';display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;color:#fff;">'+n.initials+'</div><div style="flex:1;"><div style="font-size:19px;font-weight:800;color:#0B1437;">'+n.name+'</div><div style="font-size:13px;color:#45506E;">'+n.role+' · '+n.station+'</div></div><div style="text-align:center;background:#FEF6E9;border-radius:14px;padding:12px 20px;"><div style="font-size:28px;font-weight:800;color:#F0913A;">'+n.rating+'</div><div style="font-size:11px;font-weight:600;color:#946F00;">Gesamt</div></div></div>'+
+  '<div style="font-size:14px;font-weight:700;color:#0B1437;margin-bottom:16px;">Kompetenzbewertung</div><div style="display:flex;flex-direction:column;gap:16px;">'+metrics+'</div></div></div>';
+  return out;
+}
+function wireEval(){Array.prototype.forEach.call(document.querySelectorAll('.pp-evalrow'),function(el){el.onclick=function(){state.selEval=el.getAttribute('data-id');render();};});}
+
+function renderFinance(){
+  var kpis=[{label:'Monatsumsatz',value:'128.400 €',color:'#12B76A',delta:'↑ 8% ggü. Vormonat'},{label:'Lohnkosten',value:'76.200 €',color:'#45506E',delta:'59% vom Umsatz'},{label:'Offene Rechnungen',value:'18.900 €',color:'#F0913A',delta:'4 ausstehend'},{label:'Marge',value:'31%',color:'#12B76A',delta:'↑ 2 Punkte'}];
+  var tx=[
+   {date:'24.06.2026',desc:'Lohnabrechnung Juni · 42 Kräfte',icon:'arrow-up-right',iconColor:'#F04438',tint:'#FDEBEA',amount:'− 76.200 €',amountColor:'#F04438',status:'Gebucht',sc:'#12B76A',st:'#E7F7EF'},
+   {date:'23.06.2026',desc:'Rechnung · Klinikum Westend',icon:'arrow-down-left',iconColor:'#12B76A',tint:'#E7F7EF',amount:'+ 42.800 €',amountColor:'#12B76A',status:'Bezahlt',sc:'#12B76A',st:'#E7F7EF'},
+   {date:'21.06.2026',desc:'Rechnung · Seniorenheim Lindenhof',icon:'arrow-down-left',iconColor:'#12B76A',tint:'#E7F7EF',amount:'+ 31.500 €',amountColor:'#12B76A',status:'Offen',sc:'#F0913A',st:'#FEF1E4'},
+   {date:'20.06.2026',desc:'Fortbildung · Intensivpflege',icon:'arrow-up-right',iconColor:'#F04438',tint:'#FDEBEA',amount:'− 3.200 €',amountColor:'#F04438',status:'Gebucht',sc:'#12B76A',st:'#E7F7EF'},
+   {date:'18.06.2026',desc:'Rechnung · Reha-Zentrum Süd',icon:'arrow-down-left',iconColor:'#12B76A',tint:'#E7F7EF',amount:'+ 27.400 €',amountColor:'#12B76A',status:'Bezahlt',sc:'#12B76A',st:'#E7F7EF'},
+   {date:'15.06.2026',desc:'Software-Lizenz · Disposition',icon:'arrow-up-right',iconColor:'#F04438',tint:'#FDEBEA',amount:'− 890 €',amountColor:'#F04438',status:'Gebucht',sc:'#12B76A',st:'#E7F7EF'}
+  ];
+  return '<div style="animation:pp-fade .3s ease both;"><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:18px;">'+kpis.map(function(k){return '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px;"><div style="font-size:13px;color:#45506E;margin-bottom:8px;">'+k.label+'</div><div style="font-size:25px;font-weight:800;color:#0B1437;">'+k.value+'</div><div style="font-size:12.5px;font-weight:700;color:'+k.color+';margin-top:5px;">'+k.delta+'</div></div>';}).join('')+'</div>'+
+  '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;"><div style="padding:18px 24px;border-bottom:1px solid #EEF3F2;font-size:15.5px;font-weight:700;color:#0B1437;">Letzte Buchungen</div><div style="display:grid;grid-template-columns:1fr 1.6fr 1fr 0.9fr;padding:11px 24px;background:#F5F8FF;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B7794;"><div>Datum</div><div>Beschreibung</div><div style="text-align:right;">Betrag</div><div style="text-align:right;">Status</div></div>'+
+  tx.map(function(t){return '<div style="display:grid;grid-template-columns:1fr 1.6fr 1fr 0.9fr;align-items:center;padding:14px 24px;border-bottom:1px solid #F2F6F5;"><div style="font-family:\'IBM Plex Mono\',monospace;font-size:12.5px;color:#45506E;">'+t.date+'</div><div style="display:flex;align-items:center;gap:11px;"><div style="width:34px;height:34px;border-radius:9px;background:'+t.tint+';display:flex;align-items:center;justify-content:center;"><i class="ph ph-'+t.icon+'" style="font-size:16px;color:'+t.iconColor+';"></i></div><span style="font-size:13.5px;font-weight:600;color:#0B1437;">'+t.desc+'</span></div><div style="text-align:right;font-family:\'IBM Plex Mono\',monospace;font-size:13.5px;font-weight:700;color:'+t.amountColor+';">'+t.amount+'</div><div style="text-align:right;"><span style="font-size:11.5px;font-weight:700;color:'+t.sc+';background:'+t.st+';padding:5px 10px;border-radius:8px;">'+t.status+'</span></div></div>';}).join('')+'</div></div>';
+}
+
+function renderAlarme(){
+  var sevMap={alarm:['#F04438','#FDEBEA','Alarm'],warn:['#F0913A','#FEF1E4','Warnung'],info:['#2563FF','#E6ECFB','Info']};
+  var raw=[
+   {sev:'alarm',icon:'warning-circle',title:'Nachtdienst unbesetzt',desc:'Freitag 26.06 · Station 2 — keine Pflegekraft zugewiesen',time:'vor 5 Min'},
+   {sev:'warn',icon:'clock-countdown',title:'Überstunden-Limit erreicht',desc:'Sofia Keller hat 178 von max. 180 Stunden geleistet',time:'vor 1 Std'},
+   {sev:'info',icon:'map-pin',title:'Einsatzort geändert',desc:'Amelie Roth: Ambulanter Dienst → Station 3 (heute 14:00)',time:'vor 2 Std'},
+   {sev:'warn',icon:'certificate',title:'Zertifikat läuft ab',desc:'Markus Brandt — Erste-Hilfe-Schein endet am 30.06',time:'heute'},
+   {sev:'alarm',icon:'first-aid',title:'Krankmeldung',desc:'Jonas Weber ist krankgemeldet — Schichten neu verteilen',time:'heute 07:10'},
+   {sev:'info',icon:'bell-ringing',title:'Erinnerung an Pflegekraft',desc:'Lena Hofmann: Frühdienst morgen 06:00 · Station 3',time:'gestern'}
+  ];
+  return '<div style="animation:pp-fade .3s ease both;max-width:840px;"><div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;"><div style="padding:18px 24px;border-bottom:1px solid #EEF3F2;display:flex;align-items:center;justify-content:space-between;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Alle Benachrichtigungen</div><span style="font-size:13px;font-weight:600;color:#2563FF;cursor:pointer;">Alle als gelesen markieren</span></div>'+
+  raw.map(function(a){var m=sevMap[a.sev];return '<div style="display:flex;gap:15px;align-items:flex-start;padding:16px 24px;border-bottom:1px solid #F2F6F5;"><div style="width:42px;height:42px;flex-shrink:0;border-radius:12px;background:'+m[1]+';display:flex;align-items:center;justify-content:center;"><i class="ph ph-'+a.icon+'" style="font-size:20px;color:'+m[0]+';"></i></div><div style="flex:1;min-width:0;"><div style="display:flex;align-items:center;gap:9px;"><span style="font-size:14px;font-weight:700;color:#0B1437;">'+a.title+'</span><span style="font-size:10.5px;font-weight:700;color:'+m[0]+';background:'+m[1]+';padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.4px;">'+m[2]+'</span></div><div style="font-size:13px;color:#45506E;margin-top:3px;">'+a.desc+'</div></div><span style="font-size:12px;color:#8A93A7;white-space:nowrap;">'+a.time+'</span></div>';}).join('')+'</div></div>';
+}
+
+var convData=[
+ {id:'c1',name:'Sofia Keller',role:'Online · Intensivstation',initials:'SK',color:'#2563FF',last:'Genau, danke dir! 🙏',time:'09:15'},
+ {id:'c2',name:'Team Station 3',role:'6 Mitglieder',initials:'S3',color:'#2563FF',last:'Die Übergabe-Doku liegt im System.',time:'08:40',unread:2},
+ {id:'c3',name:'Disposition',role:'Planung',initials:'DI',color:'#7A5CFF',last:'Team-Meeting morgen um 14 Uhr.',time:'Gestern'},
+ {id:'c4',name:'Nina Sommer',role:'Neue Kollegin',initials:'NS',color:'#12B76A',last:'Willkommen im Team, Nina!',time:'Mo'}
+];
+function renderChat(){
+  var active=convData.filter(function(c){return c.id===state.activeConvId;})[0]||convData[0];
+  var msgs=state.messages[state.activeConvId]||[];
+  var list=convData.map(function(c){var sel=c.id===state.activeConvId;
+    return '<div class="pp-conv" data-id="'+c.id+'" style="display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;border-bottom:1px solid #F4F8F7;background:'+(sel?'#EAF0FE':'transparent')+';"><div style="width:42px;height:42px;flex-shrink:0;border-radius:12px;background:'+c.color+';display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;">'+c.initials+'</div><div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;"><span style="font-size:13.5px;font-weight:700;color:#0B1437;">'+c.name+'</span><span style="font-size:11px;color:#8A93A7;">'+c.time+'</span></div><div style="font-size:12px;color:#45506E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+c.last+'</div></div>'+(c.unread?'<span style="background:#2563FF;color:#fff;font-size:10.5px;font-weight:700;min-width:18px;height:18px;padding:0 5px;border-radius:9px;display:flex;align-items:center;justify-content:center;">'+c.unread+'</span>':'')+'</div>';
+  }).join('');
+  var bubbles=msgs.map(function(m){var me=m.from==='me';
+    return '<div style="display:flex;flex-direction:column;align-items:'+(me?'flex-end':'flex-start')+';max-width:74%;align-self:'+(me?'flex-end':'flex-start')+';"><div style="padding:11px 15px;border-radius:'+(me?'14px 14px 4px 14px':'14px 14px 14px 4px')+';background:'+(me?'#2563FF':'#fff')+';color:'+(me?'#fff':'#0B1437')+';font-size:13.5px;line-height:1.45;border:'+(me?'none':'1px solid #E6ECF7')+';">'+esc(m.text)+'</div><div style="font-size:11px;color:#8FA3A2;margin-top:4px;padding:0 4px;">'+m.time+'</div></div>';
+  }).join('');
+  var out='<div style="animation:pp-fade .3s ease both;display:grid;grid-template-columns:300px 1fr;gap:0;background:#fff;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;height:calc(100vh - 78px - 76px);">'+
+  '<div style="border-right:1px solid #EEF3F2;display:flex;flex-direction:column;"><div style="padding:16px 18px;border-bottom:1px solid #EEF3F2;font-size:14.5px;font-weight:700;color:#0B1437;">Konversationen</div><div style="flex:1;overflow-y:auto;">'+list+'</div></div>'+
+  '<div style="display:flex;flex-direction:column;"><div style="padding:14px 22px;border-bottom:1px solid #EEF3F2;display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:11px;background:'+active.color+';display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#fff;">'+active.initials+'</div><div><div style="font-size:14.5px;font-weight:700;color:#0B1437;">'+active.name+'</div><div style="font-size:12px;color:#12B76A;display:flex;align-items:center;gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:#12B76A;"></span>'+active.role+'</div></div></div>'+
+  '<div style="flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px;background:#F5F8FF;">'+bubbles+'</div>'+
+  '<div style="padding:14px 18px;border-top:1px solid #EEF3F2;display:flex;align-items:center;gap:11px;"><input id="pp-chat-input" value="'+esc(state.chatInput)+'" placeholder="Nachricht schreiben …" style="flex:1;padding:12px 15px;border:1px solid #E6ECF7;border-radius:12px;font-family:inherit;font-size:13.5px;color:#0B1437;outline:none;background:#F5F8FF;" /><button onclick="ppSendMessage()" style="width:44px;height:44px;flex-shrink:0;background:#2563FF;color:#fff;border:none;border-radius:12px;cursor:pointer;"><i class="ph ph-paper-plane-tilt" style="font-size:18px;"></i></button></div></div></div>';
+  return out;
+}
+function wireChat(){
+  Array.prototype.forEach.call(document.querySelectorAll('.pp-conv'),function(el){el.onclick=function(){state.activeConvId=el.getAttribute('data-id');render();};});
+  var inp=document.getElementById('pp-chat-input');
+  if(inp){inp.oninput=function(e){state.chatInput=e.target.value;};inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();ppSendMessage();}};}
+}
+function ppSendMessage(){var t=(state.chatInput||'').trim();if(!t)return;var arr=(state.messages[state.activeConvId]||[]).concat([{from:'me',text:t,time:'jetzt'}]);state.messages[state.activeConvId]=arr;state.chatInput='';render();}
+window.ppSendMessage=ppSendMessage;
+
+function renderPerms(){
+  var cols='1.6fr repeat('+permRoleList.length+',1fr)';
+  var head='<div style="display:grid;grid-template-columns:'+cols+';padding:13px 24px;background:#F5F8FF;font-size:12px;font-weight:700;color:#6B7794;align-items:center;"><div style="text-transform:uppercase;letter-spacing:.4px;font-size:11.5px;">Berechtigung</div>'+permRoleList.map(function(r){return '<div style="text-align:center;color:#45506E;font-size:12.5px;">'+r+'</div>';}).join('')+'</div>';
+  var rows=permKeys.map(function(label,idx){
+    var cells=permRoleList.map(function(role){var on=state.perms[role][idx];
+      return '<div style="display:flex;justify-content:center;"><div class="pp-perm" data-role="'+role+'" data-idx="'+idx+'" style="width:42px;height:24px;border-radius:12px;background:'+(on?'#2563FF':'#D6E1E0')+';cursor:pointer;position:relative;flex-shrink:0;"><div style="position:absolute;top:3px;left:'+(on?'21px':'3px')+';width:18px;height:18px;border-radius:50%;background:#fff;"></div></div></div>';
+    }).join('');
+    return '<div style="display:grid;grid-template-columns:'+cols+';padding:14px 24px;border-bottom:1px solid #F2F6F5;align-items:center;"><div style="font-size:13.5px;font-weight:600;color:#0B1437;">'+label+'</div>'+cells+'</div>';
+  }).join('');
+  return '<div style="animation:pp-fade .3s ease both;background:#fff;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;"><div style="padding:18px 24px;border-bottom:1px solid #EEF3F2;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Rollen & Zugriffsrechte</div><div style="font-size:12.5px;color:#45506E;">Berechtigungen je Rolle aktivieren oder sperren</div></div>'+head+rows+'</div>';
+}
+function wirePerms(){Array.prototype.forEach.call(document.querySelectorAll('.pp-perm'),function(el){el.onclick=function(){var role=el.getAttribute('data-role'),idx=el.getAttribute('data-idx');state.perms[role][idx]=!state.perms[role][idx];render();};});}
+
+function renderSettings(){
+  var rows=[
+   {icon:'translate',title:'Sprache',desc:'Sprache der Benutzeroberfläche',value:'Deutsch'},
+   {icon:'calendar-dots',title:'Wochenstart',desc:'Erster Tag im Dienstplan',value:'Montag'},
+   {icon:'clock-countdown',title:'Max. Wochenstunden',desc:'Gesetzliche Obergrenze pro Kraft',value:'48 h'},
+   {icon:'magic-wand',title:'Auto-Disposition',desc:'Schichten automatisch vorschlagen',value:'Aktiv'},
+   {icon:'bell-ringing',title:'Alarm bei Unterbesetzung',desc:'Sofortige Benachrichtigung',value:'Aktiv'}
+  ];
+  return '<div style="animation:pp-fade .3s ease both;max-width:680px;background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:26px;"><div style="font-size:16px;font-weight:700;color:#0B1437;margin-bottom:4px;">Systemeinstellungen</div><div style="font-size:13px;color:#45506E;margin-bottom:22px;">Allgemeine Konfiguration der Plattform</div>'+
+  rows.map(function(s){return '<div style="display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid #F2F6F5;"><div style="width:40px;height:40px;border-radius:11px;background:#EAF0FE;display:flex;align-items:center;justify-content:center;"><i class="ph ph-'+s.icon+'" style="font-size:19px;color:#2563FF;"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:700;color:#0B1437;">'+s.title+'</div><div style="font-size:12.5px;color:#45506E;">'+s.desc+'</div></div><div style="font-size:13px;font-weight:600;color:#45506E;background:#F5F8FF;padding:8px 14px;border-radius:9px;">'+s.value+'</div></div>';}).join('')+'</div>';
+}
+
+function render(){
+  renderNav();
+  var t=TITLES[state.view]||['',''];
+  document.getElementById('pp-title').textContent=t[0];
+  document.getElementById('pp-subtitle').textContent=t[1];
+  var main=document.getElementById('pp-main');
+  if(state.view==='dashboard')main.innerHTML=renderDashboard();
+  else if(state.view==='dienstplan'){main.innerHTML=renderPlan();wirePlan();}
+  else if(state.view==='pflegekraefte')main.innerHTML=renderNurses();
+  else if(state.view==='arbeitszeiten')main.innerHTML=renderHours();
+  else if(state.view==='bewertung'){main.innerHTML=renderEval();wireEval();}
+  else if(state.view==='finanzen')main.innerHTML=renderFinance();
+  else if(state.view==='alarme')main.innerHTML=renderAlarme();
+  else if(state.view==='nachrichten'){main.innerHTML=renderChat();wireChat();}
+  else if(state.view==='berechtigungen'){main.innerHTML=renderPerms();wirePerms();}
+  else if(state.view==='einstellungen')main.innerHTML=renderSettings();
+}
+render();
+</script>
+</body>
+</html>

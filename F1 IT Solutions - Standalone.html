@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DialPilot — Outbound & Recruiting (Beispiel)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-thumb{background:#c8c9da;border-radius:8px;border:2px solid transparent;background-clip:content-box;}
+  .ph{line-height:1;display:inline-block;}
+  a{color:#2563FF;text-decoration:none;}
+  @keyframes dp-fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  @keyframes dp-ring{0%{box-shadow:0 0 0 0 rgba(31,164,99,0.45);}70%{box-shadow:0 0 0 16px rgba(31,164,99,0);}100%{box-shadow:0 0 0 0 rgba(31,164,99,0);}}
+  @keyframes dp-blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+  .dp-navitem{display:flex;align-items:center;gap:13px;padding:10px 16px;margin:1px 12px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:#8A8DB8;background:transparent;}
+  .dp-navitem:hover{background:rgba(255,255,255,0.05);}
+  .dp-navitem.active{color:#fff;font-weight:700;background:rgba(124,140,255,0.16);box-shadow:inset 3px 0 0 #7A5CFF;}
+  .dp-badge{background:#2563FF;color:#fff;font-size:11px;font-weight:700;min-width:19px;height:19px;padding:0 5px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-left:auto;}
+</style>
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+<div style="display:flex;flex-direction:column;height:100vh;width:100%;font-family:'Inter',system-ui,-apple-system,sans-serif;">
+  <div style="flex-shrink:0;padding:10px 16px 0;background:#EDEEF6;"><div id="gonj-nav"></div></div>
+  <div style="display:flex;flex:1;min-height:0;width:100%;overflow:hidden;color:#0B1437;background:#F5F8FF;-webkit-font-smoothing:antialiased;">
+
+    <aside style="width:256px;flex-shrink:0;background:linear-gradient(180deg,#0B1437 0%,#16245E 100%);display:flex;flex-direction:column;">
+      <div style="display:flex;align-items:center;gap:12px;padding:22px 20px 20px;height:78px;">
+        <div style="width:38px;height:38px;flex-shrink:0;border-radius:11px;background:linear-gradient(120deg,#2563FF,#7A5CFF,#21D4FD);display:flex;align-items:center;justify-content:center;"><i class="ph ph-phone-outgoing" style="font-size:20px;color:#fff;"></i></div>
+        <div><div style="font-size:17px;font-weight:800;color:#fff;letter-spacing:-.3px;">DialPilot</div><div style="font-size:10.5px;font-weight:600;color:#7E89A3;letter-spacing:.8px;text-transform:uppercase;">Outbound & Recruiting</div></div>
+      </div>
+      <nav style="flex:1;overflow-y:auto;padding:6px 0 14px;" id="dp-nav"></nav>
+      <div style="padding:14px 16px;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:11px;">
+        <div style="position:relative;flex-shrink:0;"><div style="width:36px;height:36px;border-radius:50%;background:#2C3A70;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#C7CEDF;">RM</div><span style="position:absolute;bottom:0;right:0;width:11px;height:11px;border-radius:50%;background:#12B76A;border:2px solid #15172E;"></span></div>
+        <div><div style="font-size:13.5px;font-weight:700;color:#EAEEF6;">Robert Maier</div><div style="font-size:11.5px;color:#7E89A3;">Teamleitung Vertrieb</div></div>
+      </div>
+    </aside>
+
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden;">
+      <header style="height:78px;flex-shrink:0;background:#fff;border-bottom:1px solid #E6ECF7;display:flex;align-items:center;gap:20px;padding:0 30px;">
+        <div style="flex:1;min-width:0;"><div id="dp-title" style="font-size:21px;font-weight:800;color:#0B1437;"></div><div id="dp-subtitle" style="font-size:13px;color:#45506E;margin-top:1px;"></div></div>
+        <div style="display:flex;align-items:center;gap:9px;background:#F5F8FF;border:1px solid #E6ECF7;border-radius:11px;padding:9px 14px;width:280px;"><i class="ph ph-magnifying-glass" style="font-size:17px;color:#9A9CC0;"></i><input placeholder="Kontakt, Nummer oder Firma suchen …" style="border:none;background:transparent;outline:none;font-family:inherit;font-size:13.5px;color:#0B1437;width:100%;" /></div>
+        <button onclick="dpGo('dialer')" style="display:flex;align-items:center;gap:8px;background:#12B76A;color:#fff;border:none;border-radius:11px;padding:11px 18px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;"><i class="ph ph-phone-call" style="font-size:16px;"></i> Anruf starten</button>
+        <div style="display:flex;align-items:center;gap:8px;background:#F5F8FF;border:1px solid #E6ECF7;border-radius:11px;padding:8px 13px;"><span style="width:9px;height:9px;border-radius:50%;background:#12B76A;"></span><span style="font-size:13px;font-weight:600;color:#45506E;">Verfügbar</span></div>
+      </header>
+      <main id="dp-main" style="flex:1;overflow-y:auto;padding:28px 30px 48px;"></main>
+    </div>
+  </div>
+  <div id="dp-toast" style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#0B1437;color:#fff;padding:14px 22px;border-radius:13px;font-size:14px;font-weight:600;display:none;align-items:center;gap:11px;box-shadow:0 12px 32px rgba(0,0,0,0.28);z-index:100;"><i id="dp-toast-icon" class="ph ph-check-circle-fill" style="font-size:20px;color:#34D399;"></i><span id="dp-toast-text"></span></div>
+</div>
+<script src="gonj-shared.js"></script>
+<script>
+renderGonjNav('gonj-nav');
+
+var leads=[
+ {id:'l1',name:'Andreas Vogel',phone:'+49 151 2847 6610',company:'Vogel Elektrotechnik GmbH',location:'München',email:'a.vogel@vogel-elektro.de',campaign:'B2B Marketing · Handwerk',initials:'AV',color:'#2563FF',status:'Neu'},
+ {id:'l2',name:'Birgit Sommer',phone:'+49 170 9923 145',company:'Pflegefachkraft · sucht Stelle',location:'Köln',email:'b.sommer@web.de',campaign:'Pflege-Recruiting Q2',initials:'BS',color:'#7A5CFF',status:'Rückruf'},
+ {id:'l3',name:'Henrik Lund',phone:'+49 160 5512 089',company:'Lund Logistik',location:'Hamburg',email:'',campaign:'Versicherung Outbound',initials:'HL',color:'#1FA39C',status:'Neu'},
+ {id:'l4',name:'Carla Moreau',phone:'+49 152 7781 332',company:'Frontend-Entwicklerin',location:'Berlin',email:'c.moreau@gmail.com',campaign:'Stellenvermittlung IT',initials:'CM',color:'#D9774F',status:'In Bearbeitung'},
+ {id:'l5',name:'Stefan Berger',phone:'+49 171 3349 920',company:'Berger Sanitär & Heizung',location:'Stuttgart',email:'',campaign:'B2B Marketing · Handwerk',initials:'SB',color:'#2563FF',status:'Neu'},
+ {id:'l6',name:'Aleksandra Nowak',phone:'+49 159 0042 718',company:'Altenpflegerin · sucht Stelle',location:'Düsseldorf',email:'a.nowak@outlook.com',campaign:'Pflege-Recruiting Q2',initials:'AN',color:'#C84B8C',status:'Qualifiziert'},
+ {id:'l7',name:'Thomas Richter',phone:'+49 162 8890 451',company:'Richter Consulting',location:'Frankfurt',email:'',campaign:'Versicherung Outbound',initials:'TR',color:'#12B76A',status:'Neu'},
+ {id:'l8',name:'Marie Dubois',phone:'+49 176 2218 663',company:'DevOps-Engineer',location:'Leipzig',email:'',campaign:'Stellenvermittlung IT',initials:'MD',color:'#7A5CFF',status:'Rückruf'},
+ {id:'l9',name:'Paul Hoffmann',phone:'+49 151 6634 207',company:'Hoffmann Dachbau',location:'Bremen',email:'',campaign:'B2B Marketing · Handwerk',initials:'PH',color:'#C8902B',status:'Neu'}
+];
+var statusStyle={'Neu':['#2563FF','#E6ECFB'],'In Bearbeitung':['#2563FF','#E6ECFB'],'Rückruf':['#F0913A','#FEF1E4'],'Qualifiziert':['#12B76A','#E7F7EF'],'Termin vereinbart':['#12B76A','#E7F7EF'],'Kein Interesse':['#6B7794','#F5F8FF'],'Nicht erreicht':['#F04438','#FDEBEA']};
+var edits={};
+function merged(l){return Object.assign({},l,edits[l.id]||{});}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+var state={view:'dialer',callState:'idle',callSeconds:0,currentIndex:0,muted:false,held:false,today:{anrufe:47,erreicht:31,termine:8,rueckruf:6},activeScript:'s1',contactTab:'Alle'};
+function flash(msg,icon,color){document.getElementById('dp-toast-text').textContent=msg;document.getElementById('dp-toast-icon').className='ph ph-'+(icon||'check-circle');document.getElementById('dp-toast-icon').style.color=color||'#34D399';var t=document.getElementById('dp-toast');t.style.display='flex';clearTimeout(window._dpT);window._dpT=setTimeout(function(){t.style.display='none';},3000);}
+function dpGo(v){state.view=v;render();}
+window.dpGo=dpGo;
+function fmtTime(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+
+var NAV_GROUPS=[
+ {group:'Verwaltung',items:[['dashboard','Übersicht','squares-four'],['dialer','Anrufen','phone-outgoing',leads.length],['contacts','Kontakte','address-book'],['campaigns','Kampagnen','megaphone']]},
+ {group:'Planung',items:[['appts','Termine','calendar-check',12]]},
+ {group:'Auswertung',items:[['reports','Berichte','chart-line-up']]},
+ {group:'Team',items:[['agents','Agenten','headset'],['scripts','Skripte','chat-text']]},
+ {group:'System',items:[['settings','Einstellungen','gear-six']]}
+];
+var TITLES={dashboard:['Übersicht','Live-Überblick über Anrufe, Kampagnen und Conversion'],dialer:['Anruf-Workspace','Kontakte anrufen, erfassen und Ergebnis dokumentieren'],contacts:['Kontakte','Alle Nummern, Leads und Kandidaten'],campaigns:['Kampagnen','Anruflisten & Fortschritt'],appts:['Termine','Aus Gesprächen vereinbarte Termine'],reports:['Berichte','Leistungsauswertung des Teams'],agents:['Agenten','Team-Status in Echtzeit'],scripts:['Skripte','Gesprächsleitfäden für Agenten'],settings:['Einstellungen','Dialer- und Team-Konfiguration']};
+
+function renderNav(){
+  document.getElementById('dp-nav').innerHTML=NAV_GROUPS.map(function(g){
+    return '<div style="margin:14px 0 2px;"><div style="padding:6px 24px;font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#4A5A85;">'+g.group+'</div>'+
+      g.items.map(function(it){var active=state.view===it[0];
+        return '<div class="dp-navitem'+(active?' active':'')+'" data-view="'+it[0]+'"><i class="ph ph-'+it[2]+'" style="font-size:19px;flex-shrink:0;"></i><span style="flex:1;white-space:nowrap;">'+it[1]+'</span>'+(it[3]?'<span class="dp-badge">'+it[3]+'</span>':'')+'</div>';
+      }).join('')+'</div>';
+  }).join('');
+  Array.prototype.forEach.call(document.querySelectorAll('.dp-navitem'),function(el){el.onclick=function(){dpGo(el.getAttribute('data-view'));};});
+}
+
+var agentsBase=[
+ {name:'Julia Wagner',role:'Senior Agentin',initials:'JW',color:'#2563FF',status:'Im Gespräch',calls:38,termine:9,conv:'24%'},
+ {name:'Mehmet Yilmaz',role:'Recruiter',initials:'MY',color:'#7A5CFF',status:'Verfügbar',calls:31,termine:7,conv:'23%'},
+ {name:'Sandra Klein',role:'Agentin',initials:'SK',color:'#1FA39C',status:'Im Gespräch',calls:29,termine:6,conv:'21%'},
+ {name:'Lukas Bauer',role:'Agent',initials:'LB',color:'#D9774F',status:'Pause',calls:22,termine:4,conv:'18%'},
+ {name:'Nora Fischer',role:'Recruiterin',initials:'NF',color:'#C84B8C',status:'Verfügbar',calls:26,termine:5,conv:'19%'},
+ {name:'Daniel Krause',role:'Agent',initials:'DK',color:'#12B76A',status:'Offline',calls:0,termine:0,conv:'–'}
+];
+var statusStyleA={'Im Gespräch':['#12B76A','#E7F7EF'],'Verfügbar':['#2563FF','#E6ECFB'],'Pause':['#F0913A','#FEF1E4'],'Offline':['#6B7794','#F5F8FF']};
+
+function renderDashboard(){
+  var td=state.today;
+  var kpis=[{label:'Anrufe heute',value:String(td.anrufe),icon:'phone-outgoing',color:'#2563FF',tint:'#E6ECFB',delta:'+12'},{label:'Erreichungsquote',value:(td.anrufe?Math.round(td.erreicht/td.anrufe*100):0)+'%',icon:'phone-incoming',color:'#12B76A',tint:'#E7F7EF',delta:'+4%'},{label:'Termine vereinbart',value:String(td.termine),icon:'calendar-check',color:'#7A5CFF',tint:'#F0ECFE',delta:'+3'},{label:'Aktive Kampagnen',value:'4',icon:'megaphone',color:'#D9774F',tint:'#FBEEE7',delta:'+1'}];
+  var funnel=[{label:'Angerufen',value:'1.240',pct:'100%',color:'#2563FF'},{label:'Erreicht',value:'820',pct:'66%',color:'#5C6BDB'},{label:'Interesse',value:'410',pct:'33%',color:'#7A5CFF'},{label:'Termin',value:'180',pct:'15%',color:'#7A5CFF'},{label:'Abschluss',value:'96',pct:'8%',color:'#12B76A'}];
+  var topAgents=agentsBase.slice().sort(function(a,b){return b.termine-a.termine;}).slice(0,4);
+  var recentOutcomes=[{lead:'Andreas Vogel',outcome:'Termin vereinbart',agent:'Julia W.',icon:'calendar-check',color:'#12B76A',tint:'#E7F7EF',time:'vor 2 Min'},{lead:'Carla Moreau',outcome:'Interesse',agent:'Mehmet Y.',icon:'thumbs-up',color:'#2563FF',tint:'#E6ECFB',time:'vor 8 Min'},{lead:'Henrik Lund',outcome:'Rückruf vereinbart',agent:'Sandra K.',icon:'arrow-counter-clockwise',color:'#F0913A',tint:'#FEF1E4',time:'vor 15 Min'},{lead:'Stefan Berger',outcome:'Nicht erreicht',agent:'Nora F.',icon:'phone-x',color:'#F04438',tint:'#FDEBEA',time:'vor 21 Min'}];
+  return '<div style="animation:dp-fade .3s ease both;"><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:18px;">'+kpis.map(function(k){return '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="width:42px;height:42px;border-radius:12px;background:'+k.tint+';display:flex;align-items:center;justify-content:center;"><i class="ph ph-'+k.icon+'" style="font-size:21px;color:'+k.color+';"></i></div><span style="font-size:12px;font-weight:700;color:#12B76A;background:#E7F7EF;padding:4px 9px;border-radius:8px;">'+k.delta+'</span></div><div style="font-size:28px;font-weight:800;color:#0B1437;">'+k.value+'</div><div style="font-size:13px;color:#45506E;margin-top:2px;">'+k.label+'</div></div>';}).join('')+'</div>'+
+  '<div style="display:grid;grid-template-columns:1fr 1.1fr;gap:18px;margin-bottom:18px;"><div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px 22px;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Conversion-Funnel</div><div style="font-size:12.5px;color:#45506E;margin-bottom:18px;">Diese Woche</div><div style="display:flex;flex-direction:column;gap:13px;">'+
+  funnel.map(function(f){return '<div><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:600;color:#45506E;">'+f.label+'</span><span style="font-family:\'IBM Plex Mono\',monospace;font-size:12.5px;font-weight:600;color:#0B1437;">'+f.value+'</span></div><div style="height:10px;border-radius:6px;background:#EEF2FF;overflow:hidden;"><div style="height:100%;width:'+f.pct+';background:'+f.color+';border-radius:6px;"></div></div></div>';}).join('')+'</div></div>'+
+  '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px 22px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Top-Agenten heute</div><span onclick="dpGo(\'agents\')" style="font-size:13px;font-weight:600;color:#2563FF;cursor:pointer;">Team ansehen</span></div>'+
+  topAgents.map(function(a){return '<div style="display:flex;align-items:center;gap:13px;padding:11px 0;border-bottom:1px solid #EEF2FF;"><div style="width:40px;height:40px;flex-shrink:0;border-radius:11px;background:'+a.color+';display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;">'+a.initials+'</div><div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:#0B1437;">'+a.name+'</div><div style="font-size:12px;color:#45506E;">'+a.calls+' Anrufe · '+a.conv+' Conversion</div></div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:14px;font-weight:700;color:#12B76A;">'+a.termine+'</div></div>';}).join('')+'</div></div>'+
+  '<div style="display:grid;grid-template-columns:1fr;gap:18px;"><div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px 22px;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;margin-bottom:14px;">Letzte Gesprächsergebnisse</div><div style="display:flex;flex-direction:column;gap:11px;">'+
+  recentOutcomes.map(function(o){return '<div style="display:flex;align-items:center;gap:13px;"><div style="width:34px;height:34px;flex-shrink:0;border-radius:10px;background:'+o.tint+';display:flex;align-items:center;justify-content:center;"><i class="ph ph-'+o.icon+'" style="font-size:17px;color:'+o.color+';"></i></div><div style="flex:1;min-width:0;"><div style="font-size:13.5px;font-weight:600;color:#0B1437;">'+o.lead+'</div><div style="font-size:12px;color:#45506E;">'+o.outcome+' · '+o.agent+'</div></div><span style="font-size:11.5px;color:#8A93A7;white-space:nowrap;">'+o.time+'</span></div>';}).join('')+'</div></div></div></div>';
+}
+
+function renderDialer(){
+  var cs=state.callState;var isIdle=cs==='idle',isRinging=cs==='ringing',isConnected=cs==='connected';var inCall=isRinging||isConnected;
+  var callStatusLabel=isConnected?(state.held?'Gehalten':'Verbunden'):isRinging?'Wird angerufen …':'Bereit zum Anruf';
+  var callStatusColor=isConnected?'#12B76A':isRinging?'#F0913A':'#6B7794';
+  var callStatusTint=isConnected?'#E7F7EF':isRinging?'#FEF1E4':'#F5F8FF';
+  var lead=merged(leads[state.currentIndex]);var sc=statusStyle[lead.status]||['#6B7794','#F5F8FF'];
+  var td=state.today;
+  var todayChips=[{label:'Anrufe heute',value:td.anrufe,color:'#2563FF'},{label:'Erreicht',value:td.erreicht,color:'#12B76A'},{label:'Termine',value:td.termine,color:'#7A5CFF'},{label:'Rückrufe',value:td.rueckruf,color:'#F0913A'}];
+  var dispositions=[{key:'termin',label:'Termin vereinbart',icon:'calendar-check',color:'#12B76A',tint:'#E7F7EF',border:'#B4EBCE'},{key:'interesse',label:'Interesse',icon:'thumbs-up',color:'#2563FF',tint:'#E6ECFB',border:'#C7D9FF'},{key:'rueckruf',label:'Rückruf',icon:'arrow-counter-clockwise',color:'#F0913A',tint:'#FEF1E4',border:'#F7D8B0'},{key:'kein',label:'Kein Interesse',icon:'hand-palm',color:'#6B7794',tint:'#F5F8FF',border:'#E6ECF7'},{key:'nicht',label:'Nicht erreicht',icon:'phone-x',color:'#F04438',tint:'#FDEBEA',border:'#F9CFCD'},{key:'mailbox',label:'Mailbox',icon:'voicemail',color:'#7A5CFF',tint:'#F0ECFE',border:'#D9CDFF'}];
+  var formFields=[['name','Name',lead.name,'Vor- und Nachname'],['phone','Telefon',lead.phone,'+49 …'],['email','E-Mail',lead.email,'name@firma.de'],['company','Firma / Position',lead.company,'Firma oder Beruf'],['location','Ort',lead.location,'Stadt']];
+  var queue=leads.map(function(l,i){var m=merged(l);return {m:m,i:i};});
+  return '<div style="animation:dp-fade .3s ease both;display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start;">'+
+  '<div style="display:flex;flex-direction:column;gap:18px;"><div style="display:flex;gap:12px;">'+todayChips.map(function(c){return '<div style="flex:1;background:#fff;border:1px solid #E6ECF7;border-radius:13px;padding:13px 16px;"><div style="font-family:\'IBM Plex Mono\',monospace;font-size:22px;font-weight:700;color:'+c.color+';">'+c.value+'</div><div style="font-size:12px;color:#45506E;">'+c.label+'</div></div>';}).join('')+'</div>'+
+  '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:18px;padding:30px;text-align:center;">'+
+  '<div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:'+callStatusTint+';margin-bottom:22px;"><span style="width:8px;height:8px;border-radius:50%;background:'+callStatusColor+';'+(inCall?'animation:dp-blink 1s infinite;':'')+'"></span><span style="font-size:12.5px;font-weight:700;color:'+callStatusColor+';">'+callStatusLabel+'</span></div>'+
+  '<div style="width:96px;height:96px;margin:0 auto 18px;border-radius:50%;background:'+lead.color+';display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:#fff;'+(isRinging?'animation:dp-ring 1.4s infinite;':'')+'">'+lead.initials+'</div>'+
+  '<div style="font-size:24px;font-weight:800;color:#0B1437;">'+lead.name+'</div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:18px;font-weight:600;color:#2563FF;margin-top:4px;">'+lead.phone+'</div><div style="font-size:13.5px;color:#45506E;margin-top:6px;">'+lead.company+' · '+lead.location+'</div><div style="display:inline-block;margin-top:10px;font-size:11.5px;font-weight:700;color:#7A5CFF;background:#F0ECFE;padding:5px 12px;border-radius:8px;">'+lead.campaign+'</div>'+
+  '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:30px;font-weight:700;color:#0B1437;margin:22px 0 6px;letter-spacing:1px;">'+fmtTime(state.callSeconds)+'</div>'+
+  '<div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px;">'+
+  (isIdle?'<button onclick="dpStartCall()" style="display:flex;align-items:center;gap:10px;background:#12B76A;color:#fff;border:none;border-radius:30px;padding:15px 34px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;"><i class="ph ph-phone-call" style="font-size:20px;"></i> Anrufen</button>':
+  '<button onclick="dpToggleMute()" style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;background:'+(state.muted?'#E6ECFB':'#F5F8FF')+';color:'+(state.muted?'#2563FF':'#45506E')+';border:1px solid #E2E3F0;border-radius:50%;cursor:pointer;"><i class="ph ph-'+(state.muted?'microphone-slash':'microphone')+'" style="font-size:21px;"></i></button>'+
+  '<button onclick="dpHangup()" style="display:flex;align-items:center;justify-content:center;width:64px;height:64px;background:#F04438;color:#fff;border:none;border-radius:50%;cursor:pointer;"><i class="ph ph-phone-x" style="font-size:26px;"></i></button>'+
+  '<button onclick="dpToggleHold()" style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;background:'+(state.held?'#FEF1E4':'#F5F8FF')+';color:'+(state.held?'#F0913A':'#45506E')+';border:1px solid #E2E3F0;border-radius:50%;cursor:pointer;"><i class="ph ph-'+(state.held?'play':'pause')+'" style="font-size:21px;"></i></button>')+
+  '</div></div>'+
+  '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px 22px;"><div style="font-size:14.5px;font-weight:700;color:#0B1437;margin-bottom:14px;">Gesprächsergebnis erfassen</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:11px;">'+
+  dispositions.map(function(d){return '<button onclick="dpEndCall(\''+d.key+'\')" style="display:flex;align-items:center;gap:10px;padding:13px 15px;border:1.5px solid '+d.border+';background:'+d.tint+';border-radius:12px;cursor:pointer;font-family:inherit;text-align:left;"><i class="ph ph-'+d.icon+'" style="font-size:19px;color:'+d.color+';flex-shrink:0;"></i><span style="font-size:13px;font-weight:700;color:#0B1437;">'+d.label+'</span></button>';}).join('')+'</div></div></div>'+
+
+  '<div style="display:flex;flex-direction:column;gap:18px;"><div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px;"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;"><div style="width:32px;height:32px;border-radius:9px;background:#E6ECFB;display:flex;align-items:center;justify-content:center;"><i class="ph ph-user-circle-gear" style="font-size:18px;color:#2563FF;"></i></div><div style="font-size:14.5px;font-weight:700;color:#0B1437;">Kundendaten erfassen</div></div><div style="font-size:12px;color:#45506E;margin-bottom:16px;">Während des Gesprächs ausfüllen</div><div style="display:flex;flex-direction:column;gap:12px;">'+
+  formFields.map(function(f){return '<div><label style="font-size:11.5px;font-weight:600;color:#45506E;display:block;margin-bottom:5px;">'+f[1]+'</label><input class="dp-field" data-key="'+f[0]+'" value="'+esc(f[2]||'')+'" placeholder="'+f[3]+'" style="width:100%;padding:10px 12px;border:1px solid #E2E3F0;border-radius:10px;font-family:inherit;font-size:13px;color:#0B1437;outline:none;background:#FAFBFF;" /></div>';}).join('')+
+  '<div><label style="font-size:11.5px;font-weight:600;color:#45506E;display:block;margin-bottom:5px;">Notizen</label><textarea class="dp-field" data-key="notes" placeholder="Gesprächsnotizen …" rows="2" style="width:100%;padding:10px 12px;border:1px solid #E2E3F0;border-radius:10px;font-family:inherit;font-size:13px;color:#0B1437;outline:none;background:#FAFBFF;resize:vertical;">'+esc(lead.notes||'')+'</textarea></div>'+
+  '<div style="display:flex;align-items:center;justify-content:space-between;padding-top:2px;"><span style="font-size:12px;color:#45506E;">Status</span><span style="font-size:11.5px;font-weight:700;color:'+sc[0]+';background:'+sc[1]+';padding:5px 11px;border-radius:8px;">'+lead.status+'</span></div></div></div>'+
+
+  '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:18px;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div style="font-size:14.5px;font-weight:700;color:#0B1437;">Warteschlange</div><span style="font-size:12px;font-weight:600;color:#2563FF;background:#E6ECFB;padding:4px 10px;border-radius:8px;">'+leads.length+' offen</span></div><div style="display:flex;flex-direction:column;gap:8px;">'+
+  queue.map(function(q){var isCur=q.i===state.currentIndex;return '<div class="dp-queue" data-i="'+q.i+'" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:11px;cursor:pointer;background:'+(isCur?'#E6ECFB':'#FAFBFF')+';border:1px solid '+(isCur?'#C7D2FF':'#E6ECF7')+';"><div style="width:32px;height:32px;flex-shrink:0;border-radius:9px;background:'+q.m.color+';display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;color:#fff;">'+q.m.initials+'</div><div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:#0B1437;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+q.m.name+'</div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#45506E;">'+q.m.phone+'</div></div>'+(isCur?'<i class="ph ph-caret-right" style="font-size:15px;color:#2563FF;"></i>':'')+'</div>';}).join('')+'</div></div></div></div>';
+}
+function wireDialer(){
+  Array.prototype.forEach.call(document.querySelectorAll('.dp-field'),function(el){el.oninput=function(){var id=leads[state.currentIndex].id;edits[id]=edits[id]||{};edits[id][el.getAttribute('data-key')]=el.value;};});
+  Array.prototype.forEach.call(document.querySelectorAll('.dp-queue'),function(el){el.onclick=function(){clearTimeout(window._dpRt);clearInterval(window._dpTimer);state.currentIndex=parseInt(el.getAttribute('data-i'),10);state.callState='idle';state.callSeconds=0;render();};});
+}
+function dpStartCall(){if(state.callState!=='idle')return;state.callState='ringing';state.callSeconds=0;state.muted=false;state.held=false;clearTimeout(window._dpRt);clearInterval(window._dpTimer);render();
+  window._dpRt=setTimeout(function(){state.callState='connected';render();window._dpTimer=setInterval(function(){state.callSeconds++;var el=document.querySelector('main');if(state.view==='dialer')render();},1000);},1400);}
+function dpHangup(){clearTimeout(window._dpRt);clearInterval(window._dpTimer);state.callState='idle';state.callSeconds=0;state.held=false;render();}
+function dpToggleMute(){state.muted=!state.muted;render();}
+function dpToggleHold(){state.held=!state.held;render();}
+function dpEndCall(key){
+  clearTimeout(window._dpRt);clearInterval(window._dpTimer);
+  var lead=leads[state.currentIndex];
+  var labelMap={termin:'Termin vereinbart',interesse:'Qualifiziert',rueckruf:'Rückruf',kein:'Kein Interesse',nicht:'Nicht erreicht',mailbox:'Rückruf'};
+  var iconMap={termin:['calendar-check','#12B76A'],interesse:['thumbs-up','#2563FF'],rueckruf:['arrow-counter-clockwise','#F0913A'],kein:['hand-palm','#6B7794'],nicht:['phone-x','#F04438'],mailbox:['voicemail','#7A5CFF']};
+  edits[lead.id]=edits[lead.id]||{};edits[lead.id].status=labelMap[key];
+  var td=state.today;td.anrufe++;
+  if(key==='termin'){td.termine++;td.erreicht++;}else if(key==='interesse'||key==='kein'){td.erreicht++;}else if(key==='rueckruf'){td.rueckruf++;td.erreicht++;}
+  state.callState='idle';state.callSeconds=0;state.held=false;state.currentIndex=(state.currentIndex+1)%leads.length;
+  flash('Ergebnis gespeichert: '+labelMap[key],iconMap[key][0],iconMap[key][1]);
+  render();
+}
+window.dpStartCall=dpStartCall;window.dpHangup=dpHangup;window.dpToggleMute=dpToggleMute;window.dpToggleHold=dpToggleHold;window.dpEndCall=dpEndCall;
+
+function renderContacts(){
+  var tabs=['Alle','Neu','In Bearbeitung','Rückruf','Qualifiziert'];
+  var allContacts=leads.map(function(l){return merged(l);});
+  var contacts=state.contactTab==='Alle'?allContacts:allContacts.filter(function(c){return c.status===state.contactTab;});
+  return '<div style="animation:dp-fade .3s ease both;background:#fff;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;"><div style="padding:16px 22px;border-bottom:1px solid #E6ECF7;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">'+
+  tabs.map(function(t){return '<span class="dp-tab" data-t="'+t+'" style="font-size:13px;font-weight:700;cursor:pointer;padding:7px 14px;border-radius:9px;background:'+(state.contactTab===t?'#2563FF':'#F5F8FF')+';color:'+(state.contactTab===t?'#fff':'#45506E')+';">'+t+'</span>';}).join('')+
+  '<div style="flex:1;"></div><button style="display:flex;align-items:center;gap:7px;background:#2563FF;color:#fff;border:none;border-radius:10px;padding:9px 15px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;"><i class="ph ph-upload-simple"></i> Liste importieren</button></div>'+
+  '<div style="display:grid;grid-template-columns:1.6fr 1.1fr 1.3fr 1fr 0.9fr;gap:14px;padding:11px 22px;background:#F5F8FF;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B7794;"><div>Kontakt</div><div>Telefon</div><div>Firma / Position</div><div>Kampagne</div><div style="text-align:right;">Status</div></div>'+
+  contacts.map(function(c){var sc=statusStyle[c.status]||['#6B7794','#F5F8FF'];return '<div style="display:grid;grid-template-columns:1.6fr 1.1fr 1.3fr 1fr 0.9fr;gap:14px;align-items:center;padding:13px 22px;border-bottom:1px solid #F5F8FF;"><div style="display:flex;align-items:center;gap:12px;min-width:0;"><div style="width:38px;height:38px;flex-shrink:0;border-radius:10px;background:'+c.color+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;">'+c.initials+'</div><div style="min-width:0;"><div style="font-size:13.5px;font-weight:700;color:#0B1437;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+c.name+'</div><div style="font-size:11.5px;color:#45506E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+c.location+'</div></div></div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:12.5px;color:#45506E;">'+c.phone+'</div><div style="font-size:12.5px;color:#45506E;">'+c.company+'</div><div style="font-size:12px;color:#45506E;">'+c.campaign+'</div><div style="text-align:right;"><span style="font-size:11.5px;font-weight:700;color:'+sc[0]+';background:'+sc[1]+';padding:5px 10px;border-radius:8px;">'+c.status+'</span></div></div>';}).join('')+'</div>';
+}
+function wireContacts(){Array.prototype.forEach.call(document.querySelectorAll('.dp-tab'),function(el){el.onclick=function(){state.contactTab=el.getAttribute('data-t');render();};});}
+
+function renderCampaigns(){
+  var campaigns=[
+   {name:'Pflege-Recruiting Q2',type:'Kandidaten-Akquise',icon:'first-aid-kit',color:'#12B76A',tint:'#E7F7EF',done:184,total:320,termine:42,conv:'23%',agentCount:3,statusLabel:'Aktiv',stColor:'#12B76A',stTint:'#E7F7EF'},
+   {name:'B2B Marketing · Handwerk',type:'Outbound Vertrieb',icon:'megaphone',color:'#2563FF',tint:'#E6ECFB',done:96,total:250,termine:28,conv:'29%',agentCount:2,statusLabel:'Aktiv',stColor:'#12B76A',stTint:'#E7F7EF'},
+   {name:'Stellenvermittlung IT',type:'Kandidaten-Akquise',icon:'code',color:'#7A5CFF',tint:'#F0ECFE',done:210,total:240,termine:51,conv:'24%',agentCount:2,statusLabel:'Endphase',stColor:'#F0913A',stTint:'#FEF1E4'},
+   {name:'Versicherung Outbound',type:'Outbound Vertrieb',icon:'shield-check',color:'#D9774F',tint:'#FBEEE7',done:0,total:180,termine:0,conv:'–',agentCount:1,statusLabel:'Geplant',stColor:'#6B7794',stTint:'#F5F8FF'}
+  ];
+  return '<div style="animation:dp-fade .3s ease both;display:grid;grid-template-columns:repeat(2,1fr);gap:18px;">'+campaigns.map(function(c){var pct=Math.round(c.done/c.total*100);
+    return '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:22px;"><div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;"><div style="display:flex;align-items:center;gap:13px;"><div style="width:46px;height:46px;border-radius:13px;background:'+c.tint+';display:flex;align-items:center;justify-content:center;"><i class="ph ph-'+c.icon+'" style="font-size:23px;color:'+c.color+';"></i></div><div><div style="font-size:16px;font-weight:700;color:#0B1437;">'+c.name+'</div><div style="font-size:12.5px;color:#45506E;">'+c.type+'</div></div></div><span style="font-size:11.5px;font-weight:700;color:'+c.stColor+';background:'+c.stTint+';padding:5px 11px;border-radius:8px;">'+c.statusLabel+'</span></div>'+
+    '<div style="display:flex;justify-content:space-between;margin-bottom:7px;"><span style="font-size:12.5px;color:#45506E;">Fortschritt</span><span style="font-family:\'IBM Plex Mono\',monospace;font-size:12.5px;font-weight:600;color:#0B1437;">'+c.done+' / '+c.total+'</span></div><div style="height:9px;border-radius:6px;background:#EEF2FF;overflow:hidden;margin-bottom:18px;"><div style="height:100%;width:'+pct+'%;background:'+c.color+';border-radius:6px;"></div></div>'+
+    '<div style="display:flex;gap:22px;"><div><div style="font-size:11px;color:#6B7794;text-transform:uppercase;letter-spacing:.4px;font-weight:700;">Termine</div><div style="font-size:18px;font-weight:800;color:#12B76A;">'+c.termine+'</div></div><div><div style="font-size:11px;color:#6B7794;text-transform:uppercase;letter-spacing:.4px;font-weight:700;">Conversion</div><div style="font-size:18px;font-weight:800;color:#2563FF;">'+c.conv+'</div></div><div><div style="font-size:11px;color:#6B7794;text-transform:uppercase;letter-spacing:.4px;font-weight:700;">Agenten</div><div style="font-size:18px;font-weight:800;color:#0B1437;">'+c.agentCount+'</div></div></div></div>';
+  }).join('')+'</div>';
+}
+
+function renderAppts(){
+  var appointments=[
+   {day:'25',month:'Jun',lead:'Andreas Vogel · Vogel Elektrotechnik',type:'Erstgespräch B2B',agent:'Julia Wagner',time:'10:30',tint:'#E6ECFB',color:'#2563FF',stLabel:'Bestätigt',stColor:'#12B76A',stTint:'#E7F7EF'},
+   {day:'25',month:'Jun',lead:'Aleksandra Nowak · Pflege',type:'Vorstellungsgespräch',agent:'Mehmet Yilmaz',time:'14:00',tint:'#F0ECFE',color:'#7A5CFF',stLabel:'Bestätigt',stColor:'#12B76A',stTint:'#E7F7EF'},
+   {day:'26',month:'Jun',lead:'Carla Moreau · IT',type:'Tech-Interview',agent:'Mehmet Yilmaz',time:'09:15',tint:'#E7F7EF',color:'#12B76A',stLabel:'Offen',stColor:'#F0913A',stTint:'#FEF1E4'},
+   {day:'26',month:'Jun',lead:'Stefan Berger · Sanitär',type:'Angebotsgespräch',agent:'Sandra Klein',time:'11:45',tint:'#FBEEE7',color:'#D9774F',stLabel:'Bestätigt',stColor:'#12B76A',stTint:'#E7F7EF'},
+   {day:'27',month:'Jun',lead:'Thomas Richter · Consulting',type:'Bedarfsanalyse',agent:'Nora Fischer',time:'16:00',tint:'#E6ECFB',color:'#2563FF',stLabel:'Offen',stColor:'#F0913A',stTint:'#FEF1E4'}
+  ];
+  return '<div style="animation:dp-fade .3s ease both;max-width:860px;background:#fff;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;"><div style="padding:18px 24px;border-bottom:1px solid #E6ECF7;display:flex;align-items:center;justify-content:space-between;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Vereinbarte Termine</div><span style="font-size:13px;font-weight:600;color:#2563FF;">Diese Woche · 12</span></div>'+
+  appointments.map(function(a){return '<div style="display:flex;align-items:center;gap:16px;padding:16px 24px;border-bottom:1px solid #F5F8FF;"><div style="text-align:center;width:62px;flex-shrink:0;background:'+a.tint+';border-radius:12px;padding:9px 0;"><div style="font-size:18px;font-weight:800;color:'+a.color+';line-height:1;">'+a.day+'</div><div style="font-size:11px;font-weight:600;color:'+a.color+';">'+a.month+'</div></div><div style="flex:1;min-width:0;"><div style="font-size:14.5px;font-weight:700;color:#0B1437;">'+a.lead+'</div><div style="font-size:12.5px;color:#45506E;">'+a.type+' · '+a.agent+'</div></div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:14px;font-weight:600;color:#2563FF;">'+a.time+'</div><span style="font-size:11.5px;font-weight:700;color:'+a.stColor+';background:'+a.stTint+';padding:5px 11px;border-radius:8px;">'+a.stLabel+'</span></div>';}).join('')+'</div>';
+}
+
+function renderReports(){
+  var rows=agentsBase.filter(function(a){return a.calls>0;}).map(function(a){return Object.assign({},a,{reached:Math.round(a.calls*0.65)});});
+  return '<div style="animation:dp-fade .3s ease both;background:#fff;border:1px solid #E6ECF7;border-radius:16px;overflow:hidden;"><div style="padding:18px 24px;border-bottom:1px solid #E6ECF7;"><div style="font-size:15.5px;font-weight:700;color:#0B1437;">Agenten-Leistung · diese Woche</div><div style="font-size:12.5px;color:#45506E;">Anrufe, Erreichbarkeit und vereinbarte Termine</div></div>'+
+  '<div style="display:grid;grid-template-columns:1.4fr 0.8fr 0.8fr 0.8fr 1.4fr;gap:14px;padding:11px 24px;background:#F5F8FF;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B7794;"><div>Agent</div><div>Anrufe</div><div>Erreicht</div><div>Termine</div><div>Conversion</div></div>'+
+  rows.map(function(r){var pct=parseInt(r.conv)||0;return '<div style="display:grid;grid-template-columns:1.4fr 0.8fr 0.8fr 0.8fr 1.4fr;gap:14px;align-items:center;padding:14px 24px;border-bottom:1px solid #F5F8FF;"><div style="display:flex;align-items:center;gap:12px;min-width:0;"><div style="width:36px;height:36px;flex-shrink:0;border-radius:10px;background:'+r.color+';display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff;">'+r.initials+'</div><div style="font-size:13.5px;font-weight:700;color:#0B1437;">'+r.name+'</div></div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:#45506E;">'+r.calls+'</div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;color:#45506E;">'+r.reached+'</div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:13px;font-weight:700;color:#12B76A;">'+r.termine+'</div><div style="display:flex;align-items:center;gap:10px;"><div style="flex:1;height:8px;border-radius:5px;background:#EEF2FF;overflow:hidden;"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#7A5CFF,#2563FF);border-radius:5px;"></div></div><span style="font-size:12px;font-weight:600;color:#45506E;width:38px;">'+r.conv+'</span></div></div>';}).join('')+'</div>';
+}
+
+function renderAgents(){
+  return '<div style="animation:dp-fade .3s ease both;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">'+agentsBase.map(function(a){var sc=statusStyleA[a.status];
+    return '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:20px;"><div style="display:flex;align-items:center;gap:13px;margin-bottom:16px;"><div style="position:relative;"><div style="width:48px;height:48px;border-radius:13px;background:'+a.color+';display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;">'+a.initials+'</div><span style="position:absolute;bottom:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:'+sc[0]+';border:2.5px solid #fff;"></span></div><div style="flex:1;min-width:0;"><div style="font-size:15px;font-weight:700;color:#0B1437;">'+a.name+'</div><div style="font-size:12px;color:#45506E;">'+a.role+'</div></div></div>'+
+    '<div style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:'+sc[0]+';background:'+sc[1]+';padding:6px 12px;border-radius:9px;margin-bottom:16px;"><span style="width:7px;height:7px;border-radius:50%;background:'+sc[0]+';"></span>'+a.status+'</div>'+
+    '<div style="display:flex;gap:20px;"><div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:19px;font-weight:700;color:#0B1437;">'+a.calls+'</div><div style="font-size:11px;color:#6B7794;">Anrufe</div></div><div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:19px;font-weight:700;color:#12B76A;">'+a.termine+'</div><div style="font-size:11px;color:#6B7794;">Termine</div></div><div><div style="font-family:\'IBM Plex Mono\',monospace;font-size:19px;font-weight:700;color:#2563FF;">'+a.conv+'</div><div style="font-size:11px;color:#6B7794;">Conversion</div></div></div></div>';
+  }).join('')+'</div>';
+}
+
+var scriptsData=[
+ {id:'s1',name:'Pflege-Recruiting',icon:'first-aid-kit',subtitle:'Erstansprache von Pflegekräften',sections:[
+   {tag:'Begrüßung',text:'Guten Tag, mein Name ist [Name] von [Firma]. Wir vermitteln Pflegekräfte an attraktive Einrichtungen — haben Sie zwei Minuten?'},
+   {tag:'Bedarf',text:'Sind Sie aktuell offen für eine neue Position? Was ist Ihnen wichtig: Schichtmodell, Standort oder Gehalt?'},
+   {tag:'Einwand',text:'„Ich bin zufrieden." → Verständlich. Viele unserer Kandidaten waren das auch — bis sie gesehen haben, was möglich ist. Darf ich Ihnen unverbindlich zwei Optionen zeigen?'},
+   {tag:'Abschluss',text:'Super! Ich schlage ein kurzes Kennenlerngespräch vor. Passt Ihnen Donnerstag 14 Uhr oder lieber Freitag vormittags?'}]},
+ {id:'s2',name:'B2B Vertrieb',icon:'megaphone',subtitle:'Outbound an Handwerksbetriebe',sections:[
+   {tag:'Begrüßung',text:'Guten Tag Herr/Frau [Name], [Name] von [Firma]. Wir helfen Handwerksbetrieben, mehr qualifizierte Anfragen zu gewinnen.'},
+   {tag:'Qualifizierung',text:'Wie gewinnen Sie aktuell neue Kunden? Würden mehr Anfragen für Sie überhaupt Sinn ergeben?'},
+   {tag:'Nutzen',text:'Unsere Kunden steigern ihre Anfragen im Schnitt um 30 % — ohne Mehraufwand für Sie.'},
+   {tag:'Abschluss',text:'Ich zeige Ihnen das gern in 15 Minuten. Wann passt es besser — Anfang oder Ende der Woche?'}]},
+ {id:'s3',name:'Versicherung',icon:'shield-check',subtitle:'Bedarfsanalyse Vorsorge',sections:[
+   {tag:'Begrüßung',text:'Guten Tag, [Name] von [Firma]. Wir bieten eine kostenlose Vorsorge-Analyse an.'},
+   {tag:'Bedarf',text:'Wann haben Sie Ihre Absicherung zuletzt geprüft? Hat sich Ihre Lebenssituation seitdem verändert?'},
+   {tag:'Abschluss',text:'Ein Berater kann das unverbindlich prüfen. Wann erreichen wir Sie am besten?'}]}
+];
+function renderScripts(){
+  var active=scriptsData.filter(function(s){return s.id===state.activeScript;})[0]||scriptsData[0];
+  var list=scriptsData.map(function(s){var sel=s.id===state.activeScript;return '<div class="dp-script" data-id="'+s.id+'" style="display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;cursor:pointer;color:'+(sel?'#0B1437':'#45506E')+';background:'+(sel?'#E6ECFB':'transparent')+';"><i class="ph ph-'+s.icon+'" style="font-size:18px;color:'+(sel?'#2563FF':'#8A93A7')+';"></i><span style="font-size:13.5px;font-weight:600;">'+s.name+'</span></div>';}).join('');
+  return '<div style="animation:dp-fade .3s ease both;display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:start;"><div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:14px;"><div style="font-size:12px;font-weight:700;color:#6B7794;text-transform:uppercase;letter-spacing:.5px;padding:6px 8px 10px;">Gesprächsleitfäden</div>'+list+'</div>'+
+  '<div style="background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:26px;"><div style="font-size:18px;font-weight:800;color:#0B1437;margin-bottom:2px;">'+active.name+'</div><div style="font-size:13px;color:#45506E;margin-bottom:22px;">'+active.subtitle+'</div><div style="display:flex;flex-direction:column;gap:16px;">'+
+  active.sections.map(function(sec){return '<div style="border-left:3px solid #2563FF;padding:2px 0 2px 16px;"><div style="font-size:11.5px;font-weight:700;color:#2563FF;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;">'+sec.tag+'</div><div style="font-size:14.5px;color:#0B1437;line-height:1.55;">'+sec.text+'</div></div>';}).join('')+'</div></div></div>';
+}
+function wireScripts(){Array.prototype.forEach.call(document.querySelectorAll('.dp-script'),function(el){el.onclick=function(){state.activeScript=el.getAttribute('data-id');render();};});}
+
+function renderSettings(){
+  var rows=[{icon:'phone-outgoing',title:'Dialer-Modus',desc:'Vorschau / Power / Predictive',value:'Power'},{icon:'translate',title:'Sprache',desc:'Sprache der Oberfläche',value:'Deutsch'},{icon:'clock',title:'Anrufzeiten',desc:'Erlaubtes Zeitfenster (DSGVO)',value:'08–20 Uhr'},{icon:'phone-disconnect',title:'Wahlwiederholung',desc:'Versuche bei „Nicht erreicht"',value:'3×'},{icon:'shield-check',title:'DSGVO-Einwilligung',desc:'Pflichtfeld vor Erfassung',value:'Aktiv'}];
+  return '<div style="animation:dp-fade .3s ease both;max-width:680px;background:#fff;border:1px solid #E6ECF7;border-radius:16px;padding:26px;"><div style="font-size:16px;font-weight:700;color:#0B1437;margin-bottom:4px;">Systemeinstellungen</div><div style="font-size:13px;color:#45506E;margin-bottom:22px;">Dialer- und Team-Konfiguration</div>'+
+  rows.map(function(s){return '<div style="display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid #F5F8FF;"><div style="width:40px;height:40px;border-radius:11px;background:#E6ECFB;display:flex;align-items:center;justify-content:center;"><i class="ph ph-'+s.icon+'" style="font-size:19px;color:#2563FF;"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:700;color:#0B1437;">'+s.title+'</div><div style="font-size:12.5px;color:#45506E;">'+s.desc+'</div></div><div style="font-size:13px;font-weight:600;color:#45506E;background:#F5F8FF;padding:8px 14px;border-radius:9px;">'+s.value+'</div></div>';}).join('')+'</div>';
+}
+
+function render(){
+  renderNav();
+  var t=TITLES[state.view]||['',''];
+  document.getElementById('dp-title').textContent=t[0];
+  document.getElementById('dp-subtitle').textContent=t[1];
+  var main=document.getElementById('dp-main');
+  if(state.view==='dashboard')main.innerHTML=renderDashboard();
+  else if(state.view==='dialer'){main.innerHTML=renderDialer();wireDialer();}
+  else if(state.view==='contacts'){main.innerHTML=renderContacts();wireContacts();}
+  else if(state.view==='campaigns')main.innerHTML=renderCampaigns();
+  else if(state.view==='appts')main.innerHTML=renderAppts();
+  else if(state.view==='reports')main.innerHTML=renderReports();
+  else if(state.view==='agents')main.innerHTML=renderAgents();
+  else if(state.view==='scripts'){main.innerHTML=renderScripts();wireScripts();}
+  else if(state.view==='settings')main.innerHTML=renderSettings();
+}
+render();
+</script>
+</body>
+</html>
